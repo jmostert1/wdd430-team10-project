@@ -1,0 +1,218 @@
+.gallery {
+  background: var(--color-bg);
+  padding: 26px 0 60px;
+}
+
+.gallery__layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 34px;
+  align-items: start;
+}
+
+.panel {
+  background: white;
+  /* Maybe we can add a border or shadow here */
+  padding: 22px;
+}
+
+/* LEFT filters */
+.panel__title {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  margin: 0 0 8px;
+  color: var(--color-text);
+}
+
+.panel__subtitle {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  margin: 18px 0 12px;
+  color: var(--color-text);
+}
+
+.panel__line {
+  height: 1px;
+  background: var(--color-muted);
+  width: 100%;
+  margin: 10px 0;
+}
+
+.panel__line--spaced {
+  margin: 22px 0;
+}
+
+.panel--filters {
+  padding-bottom: 130px; /* need to change it because works bad */
+}
+
+/* checkbox list  */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 12px 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--color-text);
+}
+
+.check input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--color-primary);
+}
+
+/* Price area */
+.price__labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.price__range {
+  width: 100%;
+  accent-color: var(--color-primary);
+  margin: 6px 0 22px;
+}
+
+.filters__apply {
+  width: 100%;
+  font-size: 22px;
+  padding: 14px 18px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* RIGHT results header */
+.results__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.results__title {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  margin: 0 0 10px;
+  color: var(--color-text);
+}
+
+/* Dropdowns */
+.select {
+  position: relative;
+}
+
+.select--small {
+  width: 240px;
+}
+
+.select--wide {
+  width: 320px;
+}
+
+.select select {
+  width: 100%;
+  appearance: none;
+  background: white;
+  border: 1px solid var(--color-muted);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 10px 42px 10px 12px;
+}
+
+/* triangle icon */
+.select::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-30%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid var(--color-muted);
+  pointer-events: none;
+}
+
+/* Products grid */
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px 28px;
+  padding-top: 6px;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product__img {
+  height: 110px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-muted);
+  position: relative;
+}
+
+.product__heart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.product__meta {
+  font-family: var(--font-body);
+  color: var(--color-text);
+}
+
+.product__name {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.product__price {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.product__store {
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .gallery__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .results__header {
+    flex-direction: column;
+  }
+
+  .select--small,
+  .select--wide {
+    width: 100%;
+  }
+
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .products {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,4 +1,27 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 export default function Header() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleSignOut = () => {
+    // Clear localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    // Redirect to home
+    router.push("/");
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -28,7 +51,16 @@ export default function Header() {
 
           {/* CTA */}
           <div className="header__cta">
-            <a className="btn btn--primary" href="/login">Login</a>
+            {isLoggedIn ? (
+              <button 
+                onClick={handleSignOut}
+                className="btn btn--primary"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <a className="btn btn--primary" href="/login">Login</a>
+            )}
           </div>
         </div>
       </div>

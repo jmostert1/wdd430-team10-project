@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  },
+  "name": "Mira Halden",
+  "birthYear": 1984,
+  "email": "mira.halden@email.com",
+  "password": "SecurePass123!",
+  "seller": true
+
+},
+{
+  "_id": {
+    "$oid": "6923fc07dadbab3fea8d4cdf"
+  },
+  "name": "Elias Renford",
+  "birthYear": 1976,
+  "email": "elias.renford@email.com",
+  "password": "MyPassword456#",
+  "seller": false
+ 
+},
+{
+  "_id": {
+    "$oid": "6923fc07dadbab3fea8d4ce0"
+  },
+  "name": "Hana Lior",
+  "birthYear": 1991,
+  "email": "hana.lior@email.com",
+  "password": "StrongPass789$",
+  "seller": true
+
+}]

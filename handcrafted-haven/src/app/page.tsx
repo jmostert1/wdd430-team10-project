@@ -1,9 +1,38 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 
 export default function HomePage() {
+  const searchParams = useSearchParams();
+  const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    const successMessage = searchParams.get("success");
+    if (successMessage) {
+      setSuccess(successMessage);
+      // Clear the success message after 5 seconds
+      setTimeout(() => setSuccess(""), 5000);
+    }
+  }, [searchParams]);
+
   return (
     <main className="page">
       <Header />
+
+      {success && (
+        <div style={{
+          background: "#d4edda",
+          color: "#155724",
+          padding: "12px",
+          textAlign: "center",
+          fontSize: "14px",
+          border: "1px solid #c3e6cb"
+        }}>
+          {success}
+        </div>
+      )}
 
       {/* Hero */}
       <section className="hero" aria-label="Featured content">

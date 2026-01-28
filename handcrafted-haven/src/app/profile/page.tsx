@@ -1,11 +1,96 @@
-/* Maybe need to do it the same way as items cuz need the ID for user */
+"use client";
+
 import Header from "@/components/Header";
 import "./profile.css";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import ProductCard from "@/components/ProductCard";
+
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+  seller: boolean;
+  birthYear?: number | null;
+};
 
 export default function ProfilePage() {
+  const router = useRouter();
+
+  // Auth / user state
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // For seller: load products
+  const [products, setProducts] = useState<any[]>([]);
+  const [loadingWorks, setLoadingWorks] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    // User is not loged in -> go to login page
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+
+    fetch("/api/auth/user", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        // Invalid token -> go to login
+        if (!data.success) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          router.push("/login");
+          return;
+        }
+
+        // Valid token -> show profile
+        setUser(data.user);
+        setLoading(false);
+      })
+      // On other error -> go to login
+      .catch(() => router.push("/login"));
+  }, [router]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    // Only sellers have works, so don’t load products for buyers
+    if (!user.seller) {
+      setLoadingWorks(false);
+      return;
+    }
+
+     // TEMP!!!! Need to change it to id later
+    const sellerName = user.name;
+
+    fetch(`/api/products/by-seller?seller=${encodeURIComponent(sellerName)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) setProducts(data.products);
+        setLoadingWorks(false);
+      })
+      .catch(() => setLoadingWorks(false));
+  }, [user]);
+
+  // Show loading state So there won't be a user=null page flash
+  if (loading) {
+    return (
+      <main className="page">
+        <Header />
+        <p className="profile__notice">Loading profile...</p>
+      </main>
+    );
+  }
+
+  if (!user) return null;
+
   return (
     <main className="page">
-        <Header />
+      <Header />
       <section className="profile">
         <div className="container">
           <div className="profile__panel">
@@ -19,11 +104,13 @@ export default function ProfilePage() {
               </div>
 
               <div className="seller__right">
-                <h1 className="seller__name">Name Lastname</h1>
-                <p className="seller__location">City, Country</p>
+                <h1 className="seller__name">{user.name}</h1>
+                <p className="seller__location">
+                  City, Country
+                </p>{/* Change it after setting database */}
 
                 <div className="seller__bio">
-                  <p>Lorem ipsum dolor sit amet, consectetur</p>
+                  <p>Lorem ipsum dolor sit amet, consectetur</p> {/* Change it after setting database */}
                   <p>adipiscing elit, sed do eiusmod tempor</p>
                   <p>incididunt ut labore et dolore magna</p>
                   <p>aliq adipiscing elit, sed do eiusmod</p>
@@ -34,24 +121,35 @@ export default function ProfilePage() {
 
             <div className="profile__divider" />
 
-            {/* Works */}
-            <h2 className="works__title">My works</h2>
+            {/* Works. Only in the user is a seller */}
+            {user.seller ? (
+              <>
+                <h2 className="works__title">My works</h2>
 
-            <div className="works__grid" aria-label="Seller works">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <article className="work" key={i}>
-                  <div className="work__img" aria-label="Product image placeholder" />
-                  <div className="work__meta">
-                    <div className="work__name">Name of the Item</div>
-                    <div className="work__price">$ 25.00</div>
-                  </div>
-                </article>
-              ))}
-            </div>
+                <div className="works__grid" aria-label="Seller works">
+                  {loadingWorks ? (
+                    <p>Loading works...</p>
+                  ) : products.length === 0 ? (
+                    <p>No works yet.</p>
+                  ) : (
+                    products.map((p) => (
+                      <ProductCard
+                        key={p._id}
+                        name={p.name}
+                        price={Number(p.price)}
+                      />
+                    ))
+                  )}
+                </div>
+              </>
+            ) : (
+              <p className="profile__notice">
+                This is a customer account. No works to display.
+              </p>
+            )}
           </div>
         </div>
       </section>
     </main>
   );
 }
-

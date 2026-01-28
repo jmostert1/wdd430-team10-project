@@ -6,9 +6,12 @@ import { useRouter } from "next/navigation";
 export default function Header() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mounted, setMounted] = useState(false); // added to avoid hydration issues
+
 
   useEffect(() => {
     // Check if user is logged in
+    setMounted(true);
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, []);
@@ -21,6 +24,10 @@ export default function Header() {
     // Redirect to home
     router.push("/");
   };
+
+  if (!mounted) {
+  return null;
+}
 
   return (
     <header className="header">
@@ -36,7 +43,7 @@ export default function Header() {
           <nav className="nav" aria-label="Main navigation">
             <a className="nav__link nav__link--active" href="/">HOME</a>
             <a className="nav__link" href="/gallery">GALLERY</a>
-            <a className="nav__link" href="/dashboard">DASHBOARD</a>
+            <a className="nav__link" href="/profile">PROFILE</a>
           </nav>
 
           {/* Search */}

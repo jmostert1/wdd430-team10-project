@@ -11,7 +11,8 @@ type User = {
   name: string;
   email: string;
   seller: boolean;
-  birthYear?: number | null;
+  country: string;
+  bio: string;
 };
 
 export default function ProfilePage() {
@@ -64,10 +65,9 @@ export default function ProfilePage() {
       return;
     }
 
-     // TEMP!!!! Need to change it to id later
-    const sellerName = user.name;
+    const seller = user._id;
 
-    fetch(`/api/products/by-seller?seller=${encodeURIComponent(sellerName)}`)
+    fetch(`/api/products/by-seller?sellerId=${encodeURIComponent(seller)}`)
       .then((r) => r.json())
       .then((data) => {
         if (data.success) setProducts(data.products);
@@ -105,16 +105,10 @@ export default function ProfilePage() {
 
               <div className="seller__right">
                 <h1 className="seller__name">{user.name}</h1>
-                <p className="seller__location">
-                  City, Country
-                </p>{/* Change it after setting database */}
+                <p className="seller__location">{user.country}</p>
 
                 <div className="seller__bio">
-                  <p>Lorem ipsum dolor sit amet, consectetur</p> {/* Change it after setting database */}
-                  <p>adipiscing elit, sed do eiusmod tempor</p>
-                  <p>incididunt ut labore et dolore magna</p>
-                  <p>aliq adipiscing elit, sed do eiusmod</p>
-                  <p>tempor</p>
+                  <p>{user.bio || "No bio available."}</p>
                 </div>
               </div>
             </div>

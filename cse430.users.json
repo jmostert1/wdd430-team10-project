@@ -7,9 +7,8 @@
   "password": "SecurePass123!",
   "country": "USA",
   "bio": "I love creating handmade items that feel warm and natural. I enjoy working with simple materials and making decor that makes a home feel cozy.",
-  "rating": 4.8,
+  "rating": 4,
   "seller": true
-
 },
 {
   "_id": {
@@ -20,9 +19,8 @@
   "password": "MyPassword456#",
   "country": "USA",
   "bio": "I like crafting in my free time and trying new creative skills. I am especially interested in making useful, well-made items by hand.",
-  "rating": 4.8,
+  "rating": 4,
   "seller": false
- 
 },
 {
   "_id": {
@@ -33,31 +31,30 @@
   "password": "StrongPass789$",
   "country": "USA",
   "bio": "I enjoy experimenting with modern designs and textures in my work. I love creating unique pieces and getting inspiration from small details around me.",
-  "rating": 4.8,
+  "rating": 5,
   "seller": true
 },
 {
   "_id": {
-    "$oid": "69789c6915a8694bddeb2406"
+    "$oid": "6980a9cc8a4020afb12b5052"
   },
-  "name": "Test1 Test1",
+  "name": "Caleb Rowan",
   "email": "test1@gmail.com",
-  "password": "$2b$10$B2P7MEFQkzY8PPlaSwld.edQCiaeXGu/ikzvB6W/CeyqjMwum7IKa",
-  "country": "USA",
+  "country": "United Arab Emirates",
   "bio": "I enjoy experimenting with modern designs and textures in my work. I love creating unique pieces and getting inspiration from small details around me.",
-  "rating": 4.8,
-  "seller": false
+  "rating": 4,
+  "password": "$2b$10$qaTCdL8Nvg4kCv.6R/9FyugPDx4PdZkEs5IC719pwFhh.fgNmEeGC",
+  "seller": true
 },
 {
   "_id": {
-    "$oid": "6979a09e75665272af5c2c5c"
+    "$oid": "6980c0ca9ca8e60097cecf7c"
   },
-  "name": "Test2 Test2",
+  "name": "Iris Bellwood",
   "email": "test2@gmail.com",
-  "password": "$2b$10$wTp6IRgbYSNdLhd1plpPfuG4SL/9ThO6fslrj93pT2C8A56HLPDkq",
-  "country": "USA",
-  "bio": "I enjoy experimenting with modern designs and textures in my work. I love creating unique pieces and getting inspiration from small details around me.",
-  "rating": 4.8,
-  "seller": true
-}
-]
+  "country": "United Arab Emirates",
+  "bio": "I enjoy discovering handmade items and learning the stories behind them. I appreciate simple design, quality materials, and thoughtful details.",
+  "rating": 5,
+  "password": "$2b$10$Th6./CAY8fUS8lpH3liNAOhQ/qeMTGkptEOT.V3FyCggfok.Jf4Rm",
+  "seller": false
+}]

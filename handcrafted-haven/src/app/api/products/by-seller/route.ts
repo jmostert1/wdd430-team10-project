@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const seller = searchParams.get("seller"); // seller NAME (string) Should chnge to ID later
+    const sellerId = searchParams.get("sellerId");
 
-    if (!seller) {
+    if (!sellerId) {
       return NextResponse.json(
-        { success: false, error: "seller is required" },
+        { success: false, error: "sellerId is required" },
         { status: 400 }
       );
     }
@@ -18,12 +19,12 @@ export async function GET(request: NextRequest) {
 
     const products = await db
       .collection("products")
-      .find({ seller }) // matches "Mira Halden"
-      .project({ name: 1, price: 1, category: 1, quantity: 1, seller: 1 })
+      .find({ sellerId: new ObjectId(sellerId) })
+      .project({ name: 1, price: 1, category: 1, quantity: 1, rating: 1, sellerId: 1 })
       .toArray();
 
     return NextResponse.json({ success: true, products });
-  } catch (error: any) {
+  } catch (error) {
     console.error("by-seller error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to load seller products" },

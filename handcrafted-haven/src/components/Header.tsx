@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+
 
 export default function Header() {
+  const pathname = usePathname();
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mounted, setMounted] = useState(false); // added to avoid hydration issues
@@ -41,9 +44,9 @@ export default function Header() {
 
           {/* Navigation */}
           <nav className="nav" aria-label="Main navigation">
-            <a className="nav__link nav__link--active" href="/">HOME</a>
-            <a className="nav__link" href="/gallery">GALLERY</a>
-            <a className="nav__link" href="/profile">PROFILE</a>
+            <a className={`nav__link ${pathname === "/" ? "nav__link--active" : ""}`} href="/">HOME</a>
+            <a className={`nav__link ${pathname === "/gallery" ? "nav__link--active" : ""}`} href="/gallery">GALLERY</a>
+            <a className={`nav__link ${pathname === "/profile" ? "nav__link--active" : ""}`} href="/profile">PROFILE</a>
           </nav>
 
           {/* Search */}

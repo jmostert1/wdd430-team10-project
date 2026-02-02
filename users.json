@@ -3,9 +3,11 @@
     "$oid": "6923fc07dadbab3fea8d4cde"
   },
   "name": "Mira Halden",
-  "birthYear": 1984,
   "email": "mira.halden@email.com",
   "password": "SecurePass123!",
+  "country": "USA",
+  "bio": "I love creating handmade items that feel warm and natural. I enjoy working with simple materials and making decor that makes a home feel cozy.",
+  "rating": 4.8,
   "seller": true
 
 },
@@ -14,9 +16,11 @@
     "$oid": "6923fc07dadbab3fea8d4cdf"
   },
   "name": "Elias Renford",
-  "birthYear": 1976,
   "email": "elias.renford@email.com",
   "password": "MyPassword456#",
+  "country": "USA",
+  "bio": "I like crafting in my free time and trying new creative skills. I am especially interested in making useful, well-made items by hand.",
+  "rating": 4.8,
   "seller": false
  
 },
@@ -25,9 +29,35 @@
     "$oid": "6923fc07dadbab3fea8d4ce0"
   },
   "name": "Hana Lior",
-  "birthYear": 1991,
   "email": "hana.lior@email.com",
   "password": "StrongPass789$",
+  "country": "USA",
+  "bio": "I enjoy experimenting with modern designs and textures in my work. I love creating unique pieces and getting inspiration from small details around me.",
+  "rating": 4.8,
   "seller": true
-
-}]
+},
+{
+  "_id": {
+    "$oid": "69789c6915a8694bddeb2406"
+  },
+  "name": "Test1 Test1",
+  "email": "test1@gmail.com",
+  "password": "$2b$10$B2P7MEFQkzY8PPlaSwld.edQCiaeXGu/ikzvB6W/CeyqjMwum7IKa",
+  "country": "USA",
+  "bio": "I enjoy experimenting with modern designs and textures in my work. I love creating unique pieces and getting inspiration from small details around me.",
+  "rating": 4.8,
+  "seller": false
+},
+{
+  "_id": {
+    "$oid": "6979a09e75665272af5c2c5c"
+  },
+  "name": "Test2 Test2",
+  "email": "test2@gmail.com",
+  "password": "$2b$10$wTp6IRgbYSNdLhd1plpPfuG4SL/9ThO6fslrj93pT2C8A56HLPDkq",
+  "country": "USA",
+  "bio": "I enjoy experimenting with modern designs and textures in my work. I love creating unique pieces and getting inspiration from small details around me.",
+  "rating": 4.8,
+  "seller": true
+}
+]

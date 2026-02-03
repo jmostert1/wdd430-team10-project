@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import useSellerProducts from "@/hooks/useSellerProducts";
+import useAuthUser from "@/hooks/useAuth";
+
 
 type User = {
   _id: string;
@@ -18,48 +20,15 @@ type User = {
 };
 
 export default function ProfilePage() {
-  const router = useRouter();
-
-  // Auth / user state
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    // User is not loged in -> go to login page
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-
-    fetch("/api/auth/user", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        // Invalid token -> go to login
-        if (!data.success) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.push("/login");
-          return;
-        }
-
-        // Valid token -> show profile
-        setUser(data.user);
-        setLoading(false);
-      })
-      // On other error -> go to login
-      .catch(() => router.push("/login"));
-  }, [router]);
+  // Load auth user
+  const { user, loadingUser } = useAuthUser({ redirectToLogin: true });
 
   // Load seller products
   const { products, loadingWorks } = useSellerProducts(user?.seller ? user._id : "");
 
 
   // Show loading state So there won't be a user=null page flash
-  if (loading) {
+  if (loadingUser) {
     return (
       <main className="page">
         <Header />

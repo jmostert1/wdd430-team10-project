@@ -22,7 +22,7 @@ export default async function SellerInfo({ sellerId }: SellerInfoProps) {
 
   const seller = await db.collection("users").findOne(
     { _id: new ObjectId(sellerId) },
-    { projection: { name: 1, country: 1, rating: 1, seller: 1 } }
+    { projection: { name: 1, country: 1, rating: 1, avatar: 1, seller: 1 } }
   );
 
   // If seller not found, show fallback
@@ -37,7 +37,11 @@ export default async function SellerInfo({ sellerId }: SellerInfoProps) {
 
   return (
     <div className="sellerRow">
-      <div className="avatar avatar--xs" aria-label="Seller avatar" />
+      <img
+        className="avatar avatar--xs"
+        src={seller.avatar || "/users/default-avatar.png"}
+        alt={`${seller.name} avatar`}
+      />
 
       <div className="sellerRow__text">
         <Link

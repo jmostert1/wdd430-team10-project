@@ -2,22 +2,10 @@
 
 import Header from "@/components/Header";
 import "./profile.css";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import useSellerProducts from "@/hooks/useSellerProducts";
 import useAuthUser from "@/hooks/useAuth";
-
-
-type User = {
-  _id: string;
-  name: string;
-  email: string;
-  seller: boolean;
-  country: string;
-  bio: string;
-};
 
 export default function ProfilePage() {
   // Load auth user
@@ -48,7 +36,11 @@ export default function ProfilePage() {
             {/* Seller info */}
             <div className="seller">
               <div className="seller__left">
-                <div className="seller__avatar" aria-label="Seller avatar" />
+                <img
+                  className="seller__avatar"
+                  src={user.avatar || "/users/default-avatar.png"}
+                  alt={`${user.name} avatar`}
+                />
                 <a className="btn btn--primary seller__btn" href="/profile">
                   Edit profile?
                 </a>

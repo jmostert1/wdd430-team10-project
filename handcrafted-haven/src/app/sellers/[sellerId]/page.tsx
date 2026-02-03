@@ -14,6 +14,7 @@ type Seller = {
   seller: boolean;
   country: string;
   bio: string;
+  avatar?: string;
 };
 
 export default function SellerPage() {
@@ -71,7 +72,11 @@ export default function SellerPage() {
           <div className="profile__panel">
             <div className="seller">
               <div className="seller__left">
-                <div className="seller__avatar" aria-label="Seller avatar" />
+                <img
+                  className="seller__avatar"
+                  src={seller.avatar || "/users/default-avatar.png"}
+                  alt={`${seller.name} avatar`}
+                />
               </div>
 
               <div className="seller__right">

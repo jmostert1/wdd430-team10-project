@@ -8,6 +8,7 @@ type User = {
   seller: boolean;
   country: string;
   bio: string;
+  avatar?: string;
 };
 
 export default function useAuthUser(options?: { redirectToLogin?: boolean }) {

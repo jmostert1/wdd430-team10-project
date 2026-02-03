@@ -248,6 +248,13 @@
   color: var(--color-primary);
 }
 
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+
 /* Description */
 .details__desc {
   font-family: var(--font-body);

@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
       country,
       bio,
       rating: rating || 0,
+      avatar: "/users/default-avatar.png",
       password: hashedPassword,
       seller: seller || false
     };

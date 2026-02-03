@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
+import useSellerProducts from "@/hooks/useSellerProducts";
 
 type Seller = {
   _id: string;
@@ -21,9 +22,6 @@ export default function SellerPage() {
 
   const [seller, setSeller] = useState<Seller | null>(null);
   const [loadingSeller, setLoadingSeller] = useState(true);
-
-  const [products, setProducts] = useState<any[]>([]);
-  const [loadingWorks, setLoadingWorks] = useState(true);
 
   // Load seller info
   useEffect(() => {
@@ -42,20 +40,8 @@ export default function SellerPage() {
   }, [sellerId]);
 
   // Load seller products
-  useEffect(() => {
-    if (!sellerId) return;
+  const { products, loadingWorks } = useSellerProducts(sellerId);
 
-    setLoadingWorks(true);
-
-    fetch(`/api/products/by-seller?sellerId=${encodeURIComponent(sellerId)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success) setProducts(data.products);
-        else setProducts([]);
-      })
-      .catch(() => setProducts([]))
-      .finally(() => setLoadingWorks(false));
-  }, [sellerId]);
 
   // Safety (we can probably delete it or style it better later)
   if (loadingSeller) {

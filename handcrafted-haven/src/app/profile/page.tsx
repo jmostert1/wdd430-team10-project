@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
+import useSellerProducts from "@/hooks/useSellerProducts";
 
 type User = {
   _id: string;
@@ -22,10 +23,6 @@ export default function ProfilePage() {
   // Auth / user state
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // For seller: load products
-  const [products, setProducts] = useState<any[]>([]);
-  const [loadingWorks, setLoadingWorks] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -57,25 +54,9 @@ export default function ProfilePage() {
       .catch(() => router.push("/login"));
   }, [router]);
 
-  useEffect(() => {
-    if (!user) return;
+  // Load seller products
+  const { products, loadingWorks } = useSellerProducts(user?.seller ? user._id : "");
 
-    // Only sellers have works, so don’t load products for buyers
-    if (!user.seller) {
-      setLoadingWorks(false);
-      return;
-    }
-
-    const seller = user._id;
-
-    fetch(`/api/products/by-seller?sellerId=${encodeURIComponent(seller)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success) setProducts(data.products);
-        setLoadingWorks(false);
-      })
-      .catch(() => setLoadingWorks(false));
-  }, [user]);
 
   // Show loading state So there won't be a user=null page flash
   if (loading) {

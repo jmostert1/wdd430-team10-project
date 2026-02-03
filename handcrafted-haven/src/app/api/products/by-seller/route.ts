@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     const products = await db
       .collection("products")
       .find({ sellerId: new ObjectId(sellerId) })
-      .project({ name: 1, price: 1, category: 1, quantity: 1, rating: 1, sellerId: 1 })
+      .project({ name: 1, price: 1, category: 1, quantity: 1, rating: 1, imageUrl: 1, sellerId: 1 })
       .toArray();
 
     return NextResponse.json({ success: true, products });

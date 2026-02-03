@@ -8,6 +8,11 @@
   "category": "Ceramics",
   "quantity": 12,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/vase1.png",
+    "/products/vase2.png",
+    "/products/vase3.png",
+    "/products/vase4.png"],
   "sellerId": {
     "$oid": "6923fc07dadbab3fea8d4ce0"
   }
@@ -22,6 +27,11 @@
   "category": "Textiles",
   "quantity": 9,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/cushion1.png",
+    "/products/cushion2.png",
+    "/products/cushion3.png",
+    "/products/cushion4.png"],
   "sellerId": {
     "$oid": "6923fc07dadbab3fea8d4cde"
   }
@@ -36,6 +46,11 @@
   "category": "Home Decor",
   "quantity": 8,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/candle-holder1.png",
+    "/products/candle-holder2.png",
+    "/products/candle-holder3.png",
+    "/products/candle-holder4.png"],
   "sellerId": {
     "$oid": "6923fc07dadbab3fea8d4cdf"
   }
@@ -50,6 +65,11 @@
   "category": "Textiles",
   "quantity": 8,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/blanket1.png",
+    "/products/blanket2.png",
+    "/products/blanket3.png",
+    "/products/blanket4.png"],
   "sellerId": {
     "$oid": "6923fc07dadbab3fea8d4cde"
   }
@@ -64,6 +84,11 @@
   "category": "Ceramics",
   "quantity": 14,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/blue-plate.png",
+    "/products/blue-plate2.png",
+    "/products/blue-plate3.png",
+    "/products/blue-plate4.png"],
   "sellerId": {
     "$oid": "6923fc07dadbab3fea8d4ce0"
   }
@@ -78,6 +103,11 @@
   "category": "Textiles",
   "quantity": 6,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/table-runner1.png",
+    "/products/table-runner2.png",
+    "/products/table-runner3.png",
+    "/products/table-runner4.png"],
   "sellerId": {
     "$oid": "6923fc07dadbab3fea8d4cde"
   }
@@ -92,6 +122,11 @@
   "category": "Home Decor",
   "quantity": 15,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/board1.png",
+    "/products/board2.png",
+    "/products/board3.png",
+    "/products/board4.png"],
   "sellerId": {
     "$oid": "6980a9cc8a4020afb12b5052"
   }
@@ -106,6 +141,11 @@
   "category": "Ceramics",
   "quantity": 10,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/bowl1.png",
+    "/products/bowl2.png",
+    "/products/bowl3.png",
+    "/products/bowl4.png"],
   "sellerId": {
     "$oid": "6980a9cc8a4020afb12b5052"
   }
@@ -120,6 +160,11 @@
   "category": "Home Decor",
   "quantity": 12,
   "rating": 5.0,
+  "imageUrl": [
+    "/products/coasters1.png",
+    "/products/coasters2.png",
+    "/products/coasters3.png",
+    "/products/coasters4.png"],
   "sellerId": {
     "$oid": "6980a9cc8a4020afb12b5052"
   }

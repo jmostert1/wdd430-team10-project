@@ -131,6 +131,7 @@ export default function ProfilePage() {
                         key={p._id}
                         name={p.name}
                         price={Number(p.price)}
+                        imageSrc={p.imageUrl?.[0]}
                       />
                     ))
                   )}

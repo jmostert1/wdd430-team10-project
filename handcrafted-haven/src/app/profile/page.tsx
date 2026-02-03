@@ -5,6 +5,7 @@ import "./profile.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
+import Link from "next/link";
 
 type User = {
   _id: string;
@@ -99,9 +100,9 @@ export default function ProfilePage() {
               <div className="seller__left">
                 <div className="seller__avatar" aria-label="Seller avatar" />
                 <a className="btn btn--primary seller__btn" href="/profile">
-                  See More
+                  Edit profile?
                 </a>
-              </div>
+              </div> 
 
               <div className="seller__right">
                 <h1 className="seller__name">{user.name}</h1>
@@ -127,12 +128,16 @@ export default function ProfilePage() {
                     <p>No works yet.</p>
                   ) : (
                     products.map((p) => (
-                      <ProductCard
+                      <Link 
                         key={p._id}
-                        name={p.name}
-                        price={Number(p.price)}
-                        imageSrc={p.imageUrl?.[0]}
-                      />
+                        href={`/items/${p._id}`} 
+                        className="cardLink">
+                        <ProductCard
+                          name={p.name}
+                          price={Number(p.price)}
+                          imageSrc={p.imageUrl?.[0]}
+                        />
+                      </Link>
                     ))
                   )}
                 </div>

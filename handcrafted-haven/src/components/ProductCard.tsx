@@ -1,3 +1,5 @@
+import styles from "./ProductCard.module.css";
+
 type ProductCardProps = {
   name: string;
   price: number;
@@ -11,11 +13,7 @@ export default function ProductCard({ name, price, imageSrc }: ProductCardProps)
         <img
           src={imageSrc}
           alt={name}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover"
-          }}
+          className={styles.image}
         />
       </div>
 

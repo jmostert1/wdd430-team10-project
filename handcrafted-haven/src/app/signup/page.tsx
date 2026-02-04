@@ -49,11 +49,8 @@ export default function SignupPage() {
         throw new Error(data.error || "Signup failed");
       }
 
-      // Store token in localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
       // Redirect to login page with success message
+      // Don't store token - user needs to sign in first
       router.push("/login?success=Account created successfully! Please sign in.");
     } catch (err: any) {
       setError(err.message || "An error occurred during signup");

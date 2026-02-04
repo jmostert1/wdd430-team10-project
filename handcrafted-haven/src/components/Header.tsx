@@ -6,11 +6,22 @@ import { useRouter } from "next/navigation";
 export default function Header() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSeller, setIsSeller] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in
     const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
+    
     setIsLoggedIn(!!token);
+    
+    if (userData) {
+      const user = JSON.parse(userData);
+      setIsSeller(user.seller === true);
+    }
+    
+    setMounted(true);
   }, []);
 
   const handleSignOut = () => {
@@ -51,13 +62,26 @@ export default function Header() {
 
           {/* CTA */}
           <div className="header__cta">
-            {isLoggedIn ? (
-              <button 
-                onClick={handleSignOut}
-                className="btn btn--primary"
-              >
-                Sign Out
-              </button>
+            {!mounted ? (
+              <div className="btn btn--primary" style={{ visibility: 'hidden' }}>Login</div>
+            ) : isLoggedIn ? (
+              <>
+                {isSeller && (
+                  <a href="/profile" className="btn btn--primary btn--green">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Profile
+                  </a>
+                )}
+                <button 
+                  onClick={handleSignOut}
+                  className="btn btn--primary"
+                >
+                  Sign Out
+                </button>
+              </>
             ) : (
               <a className="btn btn--primary" href="/login">Login</a>
             )}

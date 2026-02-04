@@ -61,6 +61,25 @@ export async function POST(request: NextRequest) {
 
     const result = await db.collection('users').insertOne(newUser);
 
+    // If user is a seller, create a profile entry
+    if (seller) {
+      console.log('Creating profile for seller:', { userId: result.insertedId, name, email });
+      try {
+        const profileResult = await db.collection('profiles').insertOne({
+          userId: result.insertedId,
+          name: name,
+          email: email,
+          location: '',
+          bio: '',
+          createdAt: new Date().toISOString(),
+        });
+        console.log('Profile created successfully:', profileResult.insertedId);
+      } catch (profileError) {
+        console.error('Error creating profile:', profileError);
+        // Don't fail the entire signup if profile creation fails
+      }
+    }
+
     // Create JWT token
     const token = jwt.sign(
       { 

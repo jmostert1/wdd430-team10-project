@@ -11,7 +11,6 @@ export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    rememberMe: false,
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -135,26 +134,6 @@ export default function LoginPage() {
                     }
                     required
                   />
-                </div>
-
-                <div className="form-options">
-                  <label className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      className="checkbox-input"
-                      checked={formData.rememberMe}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          rememberMe: e.target.checked,
-                        })
-                      }
-                    />
-                    <span>Remember me</span>
-                  </label>
-                  <a href="/forgot-password" className="forgot-link">
-                    Forgot password?
-                  </a>
                 </div>
 
                 <button

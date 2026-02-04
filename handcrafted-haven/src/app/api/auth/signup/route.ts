@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password, seller } = await request.json();
+    const { name, email, password, seller, country, bio, rating } = await request.json();
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -53,10 +53,12 @@ export async function POST(request: NextRequest) {
     const newUser = {
       name,
       email,
+      country,
+      bio,
+      rating: rating || 0,
+      avatar: "/users/default-avatar.png",
       password: hashedPassword,
-      seller: seller || false,
-      birthYear: null,
-      createdAt: new Date().toISOString(),
+      seller: seller || false
     };
 
     const result = await db.collection('users').insertOne(newUser);
@@ -70,7 +72,7 @@ export async function POST(request: NextRequest) {
       },
       JWT_SECRET,
       { expiresIn: '7d' }
-    );
+    ); 
 
     // Return user data (without password) and token
     const { password: _, ...userWithoutPassword } = newUser;

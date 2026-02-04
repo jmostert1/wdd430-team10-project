@@ -2,82 +2,21 @@
 
 import Header from "@/components/Header";
 import "./profile.css";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
-
-type User = {
-  _id: string;
-  name: string;
-  email: string;
-  seller: boolean;
-  birthYear?: number | null;
-};
+import Link from "next/link";
+import useSellerProducts from "@/hooks/useSellerProducts";
+import useAuthUser from "@/hooks/useAuth";
 
 export default function ProfilePage() {
-  const router = useRouter();
+  // Load auth user
+  const { user, loadingUser } = useAuthUser({ redirectToLogin: true });
 
-  // Auth / user state
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Load seller products
+  const { products, loadingWorks } = useSellerProducts(user?.seller ? user._id : "");
 
-  // For seller: load products
-  const [products, setProducts] = useState<any[]>([]);
-  const [loadingWorks, setLoadingWorks] = useState(true);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    // User is not loged in -> go to login page
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-
-    fetch("/api/auth/user", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        // Invalid token -> go to login
-        if (!data.success) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.push("/login");
-          return;
-        }
-
-        // Valid token -> show profile
-        setUser(data.user);
-        setLoading(false);
-      })
-      // On other error -> go to login
-      .catch(() => router.push("/login"));
-  }, [router]);
-
-  useEffect(() => {
-    if (!user) return;
-
-    // Only sellers have works, so don’t load products for buyers
-    if (!user.seller) {
-      setLoadingWorks(false);
-      return;
-    }
-
-     // TEMP!!!! Need to change it to id later
-    const sellerName = user.name;
-
-    fetch(`/api/products/by-seller?seller=${encodeURIComponent(sellerName)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success) setProducts(data.products);
-        setLoadingWorks(false);
-      })
-      .catch(() => setLoadingWorks(false));
-  }, [user]);
 
   // Show loading state So there won't be a user=null page flash
-  if (loading) {
+  if (loadingUser) {
     return (
       <main className="page">
         <Header />
@@ -97,24 +36,22 @@ export default function ProfilePage() {
             {/* Seller info */}
             <div className="seller">
               <div className="seller__left">
-                <div className="seller__avatar" aria-label="Seller avatar" />
+                <img
+                  className="seller__avatar"
+                  src={user.avatar || "/users/default-avatar.png"}
+                  alt={`${user.name} avatar`}
+                />
                 <a className="btn btn--primary seller__btn" href="/profile">
-                  See More
+                  Edit profile?
                 </a>
-              </div>
+              </div> 
 
               <div className="seller__right">
                 <h1 className="seller__name">{user.name}</h1>
-                <p className="seller__location">
-                  City, Country
-                </p>{/* Change it after setting database */}
+                <p className="seller__location">{user.country}</p>
 
                 <div className="seller__bio">
-                  <p>Lorem ipsum dolor sit amet, consectetur</p> {/* Change it after setting database */}
-                  <p>adipiscing elit, sed do eiusmod tempor</p>
-                  <p>incididunt ut labore et dolore magna</p>
-                  <p>aliq adipiscing elit, sed do eiusmod</p>
-                  <p>tempor</p>
+                  <p>{user.bio || "No bio available."}</p>
                 </div>
               </div>
             </div>
@@ -133,11 +70,16 @@ export default function ProfilePage() {
                     <p>No works yet.</p>
                   ) : (
                     products.map((p) => (
-                      <ProductCard
+                      <Link 
                         key={p._id}
-                        name={p.name}
-                        price={Number(p.price)}
-                      />
+                        href={`/items/${p._id}`} 
+                        className="cardLink">
+                        <ProductCard
+                          name={p.name}
+                          price={Number(p.price)}
+                          imageSrc={p.imageUrl?.[0]}
+                        />
+                      </Link>
                     ))
                   )}
                 </div>

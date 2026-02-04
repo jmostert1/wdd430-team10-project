@@ -1,33 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import useAuthUser from "@/hooks/useAuth";
 
 export default function Header() {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [mounted, setMounted] = useState(false); // added to avoid hydration issues
+  const pathname = usePathname();
 
-
-  useEffect(() => {
-    // Check if user is logged in
-    setMounted(true);
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
-
-  const handleSignOut = () => {
-    // Clear localStorage
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    // Redirect to home
-    router.push("/");
-  };
-
-  if (!mounted) {
-  return null;
-}
+  // Load auth user
+  const { isLoggedIn, signOut } = useAuthUser();
 
   return (
     <header className="header">
@@ -35,15 +15,17 @@ export default function Header() {
         <div className="header__inner">
           {/* Logo */}
           <a className="brand" href="/" aria-label="Handcrafted Haven home">
-            <span className="brand__icon" aria-hidden="true">HH</span>
+            <span className="brand__icon" aria-hidden="true">
+              HH
+            </span>
             <span className="brand__name">Handcrafted Haven</span>
           </a>
 
           {/* Navigation */}
           <nav className="nav" aria-label="Main navigation">
-            <a className="nav__link nav__link--active" href="/">HOME</a>
-            <a className="nav__link" href="/gallery">GALLERY</a>
-            <a className="nav__link" href="/profile">PROFILE</a>
+            <a className={`nav__link ${pathname === "/" ? "nav__link--active" : ""}`} href="/">HOME</a>
+            <a className={`nav__link ${pathname === "/gallery" ? "nav__link--active" : ""}`} href="/gallery">GALLERY</a>
+            <a className={`nav__link ${pathname === "/profile" ? "nav__link--active" : ""}`} href="/profile">PROFILE</a>
           </nav>
 
           {/* Search */}
@@ -59,14 +41,13 @@ export default function Header() {
           {/* CTA */}
           <div className="header__cta">
             {isLoggedIn ? (
-              <button 
-                onClick={handleSignOut}
-                className="btn btn--primary"
-              >
+              <button onClick={signOut} className="btn btn--primary">
                 Sign Out
               </button>
             ) : (
-              <a className="btn btn--primary" href="/login">Login</a>
+              <a className="btn btn--primary" href="/login">
+                Login
+              </a>
             )}
           </div>
         </div>

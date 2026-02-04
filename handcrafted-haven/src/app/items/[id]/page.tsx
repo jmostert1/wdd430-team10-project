@@ -1,76 +1,80 @@
 import Header from "@/components/Header";
 import "./item.css";
+import clientPromise from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
+import { notFound } from "next/navigation";
+import ProductImageCarousel from "@/components/ProductImageCarousel";
+import ReviewCard from "@/components/ReviewCard";
+import SellerInfo from "@/components/SellerInfo";
 
-export default function ItemPage() {
+
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function ItemPage({ params }: PageProps) {
+  const { id } = await params;
+
+  if (!ObjectId.isValid(id)) notFound();
+
+  const client = await clientPromise;
+  const db = client.db("cse430");
+
+  const product = await db.collection("products").findOne(
+    { _id: new ObjectId(id) },
+    { projection: { name: 1, price: 1, description: 1, rating: 1, imageUrl: 1, sellerId: 1 } }
+  );
+
+  if (!product) {
+    notFound();
+  }
+
+  const images: string[] = product.imageUrl ?? [];
+
   return (
     <main className="page">
-    <Header />
+      <Header />
       <section className="item">
         <div className="container">
           <div className="item__panel">
             <div className="item__grid">
               {/* LEFT COLUMN */}
               <div className="media">
-                <div className="media__main" aria-label="Product image" />
+                <ProductImageCarousel
+                  images={images}
+                  alt={product.name}
+                />
 
-                <div className="media__thumbRow" aria-label="Product thumbnails">
-                  <button className="thumbNav" type="button" aria-label="Previous images">
-                    ‹
-                  </button>
-
-                  <div className="thumb" />
-                  <div className="thumb" />
-                  <div className="thumb" />
-
-                  <button className="thumbNav" type="button" aria-label="Next images">
-                    ›
-                  </button>
-                </div>
-
-                <div className="reviewPreview">
-                  <div className="reviewPreview__top">
-                    <div className="avatar" />
-
-                    <div className="reviewPreview__meta">
-                        <div className="reviewPreview__header">
-                        <span className="reviewPreview__name">Buyer Information</span>
-                        <span className="stars stars--sm">★★★★★</span>
-                        </div>
-
-                        <div className="reviewPreview__date">01.07.2025</div>
-                    </div>
-                    </div>
-
-
-                  <p className="reviewPreview__text">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqui adipiscing elit, sed do eiusmod tempor
-                    tempor.
-                  </p>
-                </div>
+                {/* Reviews are static for now. Need to change it later */}
+                <ReviewCard
+                  name="Buyer Information"
+                  date="01.07.2025"
+                  rating={4.8}
+                  text="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+                />
               </div>
 
               {/* RIGHT COLUMN */}
               <div className="details">
-                <h1 className="details__title">Product Name</h1>
-                <div className="details__price">$ 25.00</div>
+                <div className="details__top">
+                  <h1 className="details__title">{product.name}</h1>
 
-                <div className="details__rating">
-                  <div className="stars" aria-label="Overall rating">★★★★★</div>
-                  <div className="details__ratingText">5.0 (12 Reviews)</div>
-                </div>
+                  <div className="details__meta">
+                    <div className="details__price">$ {Number(product.price).toFixed(2)}</div>
 
-                <div className="sellerRow">
-                  <div className="avatar avatar--sm" aria-label="Seller avatar" />
-                  <div className="sellerRow__text">Seller Information</div>
+                    <div className="details__rating">
+                      <div className="stars" aria-label="Overall rating">★★★★★</div>
+                      <div className="details__ratingText">
+                        {Number(product.rating ?? 0).toFixed(1)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <SellerInfo sellerId={String(product.sellerId)} />
                 </div>
 
                 <div className="details__desc">
-                  <p>Lorem ipsum dolor sit amet, consectetur</p>
-                  <p>adipiscing elit, sed do eiusmod tempor</p>
-                  <p>incididunt ut labore et dolore magna</p>
-                  <p>aliq adipiscing elit, sed do eiusmod</p>
-                  <p>tempor</p>
+                  <p>{product.description}</p>
                 </div>
 
                 <div className="details__actions">

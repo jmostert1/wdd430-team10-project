@@ -4,12 +4,15 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import "../login/login.css";
+import { count } from "console";
 
 export default function SignupPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    country: "",
+    bio: "",
     password: "",
     confirmPassword: "",
     seller: false,
@@ -39,6 +42,8 @@ export default function SignupPage() {
           name: formData.name,
           email: formData.email,
           password: formData.password,
+          country: formData.country,
+          bio: formData.bio,
           seller: formData.seller,
         }),
       });
@@ -117,6 +122,40 @@ export default function SignupPage() {
                       setFormData({ ...formData, email: e.target.value })
                     }
                     required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="country" className="form-label">
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    id="country"
+                    name="country"
+                    className="form-input"
+                    placeholder="United States"
+                    value={formData.country}
+                    onChange={(e) =>
+                      setFormData({ ...formData, country: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="bio" className="form-label">
+                    Bio
+                  </label>
+                  <textarea
+                    id="bio"
+                    name="bio"
+                    className="form-input"
+                    placeholder="Tell us about yourself..."
+                    value={formData.bio}
+                    onChange={(e) =>
+                      setFormData({ ...formData, bio: e.target.value })
+                    }
                   />
                 </div>
 

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import "./profile.css";
+import ProductCard from "@/components/ProductCard";
+import Link from "next/link";
+import useSellerProducts from "@/hooks/useSellerProducts";
+import useAuthUser from "@/hooks/useAuth";
 
 interface Profile {
   _id: string;
@@ -28,103 +30,24 @@ interface Product {
 }
 
 export default function ProfilePage() {
-  const router = useRouter();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [isSeller, setIsSeller] = useState(false);
+  // Load auth user
+  const { user, loadingUser } = useAuthUser({ redirectToLogin: true });
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const userData = localStorage.getItem("user");
+  // Load seller products
+  const { products, loadingWorks } = useSellerProducts(user?.seller ? user._id : "");
 
-        if (!token) {
-          router.push("/login");
-          return;
-        }
 
-        if (userData) {
-          const user = JSON.parse(userData);
-          setIsSeller(user.seller === true);
-          
-          if (!user.seller) {
-            setError("You must be a seller to view this page");
-            setLoading(false);
-            return;
-          }
-        }
-
-        const response = await fetch("/api/profile", {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || "Failed to fetch profile");
-        }
-
-        setProfile(data.profile);
-        setProducts(data.products || []);
-      } catch (err: any) {
-        setError(err.message || "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [router]);
-
-  if (loading) {
+  // Show loading state So there won't be a user=null page flash
+  if (loadingUser) {
     return (
       <main className="page">
         <Header />
-        <section className="profile">
-          <div className="container">
-            <div className="profile__panel">
-              <p>Loading profile...</p>
-            </div>
-          </div>
-        </section>
+        <p className="profile__notice">Loading profile...</p>
       </main>
     );
   }
 
-  if (error) {
-    return (
-      <main className="page">
-        <Header />
-        <section className="profile">
-          <div className="container">
-            <div className="profile__panel">
-              <p style={{ color: "#c33" }}>{error}</p>
-            </div>
-          </div>
-        </section>
-      </main>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <main className="page">
-        <Header />
-        <section className="profile">
-          <div className="container">
-            <div className="profile__panel">
-              <p>Profile not found</p>
-            </div>
-          </div>
-        </section>
-      </main>
-    );
-  }
+  if (!user) return null;
 
   return (
     <main className="page">
@@ -135,73 +58,67 @@ export default function ProfilePage() {
             {/* Seller info */}
             <div className="seller">
               <div className="seller__left">
-                <div className="seller__avatar" aria-label="Seller avatar" />
-                {isSeller && (
+                <img
+                  className="seller__avatar"
+                  src={user.avatar || "/users/default-avatar.png"}
+                  alt={`${user.name} avatar`}
+                />
+                {user.seller && (
                   <a className="btn btn--primary seller__btn" href="/profile/edit">
                     Edit Profile
                   </a>
                 )}
-              </div>
+              </div> 
 
               <div className="seller__right">
-                <h1 className="seller__name">{profile.name}</h1>
-                <p className="seller__location">
-                  {profile.email}
-                </p>
-                <p className="seller__location">
-                  {profile.location || "No location set"}
-                </p>
+                <h1 className="seller__name">{user.name}</h1>
+                <p className="seller__location">{user.email}</p>
+                <p className="seller__location">{user.country}</p>
 
                 <div className="seller__bio">
-                  {profile.bio ? (
-                    profile.bio.split('\n').map((line, i) => (
-                      <p key={i}>{line}</p>
-                    ))
-                  ) : (
-                    <p>No bio added yet</p>
-                  )}
+                  <p>{user.bio || "No bio available."}</p>
                 </div>
               </div>
             </div>
 
             <div className="profile__divider" />
 
-            {/* Works */}
-            <h2 className="works__title">My works</h2>
+            {/* Works. Only in the user is a seller */}
+            {user.seller ? (
+              <>
+                <h2 className="works__title">My works</h2>
 
-            {products.length === 0 ? (
-              <p style={{ textAlign: "center", color: "#666", margin: "20px 0" }}>
-                No products yet. Add your first product to get started!
-              </p>
+                <div className="works__grid" aria-label="Seller works">
+                  {loadingWorks ? (
+                    <p>Loading works...</p>
+                  ) : products.length === 0 ? (
+                    <p>No works yet.</p>
+                  ) : (
+                    products.map((p) => (
+                      <Link 
+                        key={p._id}
+                        href={`/items/${p._id}`} 
+                        className="cardLink">
+                        <ProductCard
+                          name={p.name}
+                          price={Number(p.price)}
+                          imageSrc={p.imageUrl?.[0]}
+                        />
+                      </Link>
+                    ))
+                  )}
+                </div>
+
+                <div style={{ marginTop: "30px", textAlign: "center" }}>
+                  <a href="/products/add" className="btn btn--primary">
+                    Add New Product
+                  </a>
+                </div>
+              </>
             ) : (
-              <div className="works__grid" aria-label="Seller works">
-                {products.map((product) => (
-                  <article className="work" key={product._id}>
-                    {product.imageUrl ? (
-                      <img 
-                        src={product.imageUrl} 
-                        alt={product.name}
-                        className="work__img"
-                        style={{ objectFit: "cover", width: "100%", height: "100%" }}
-                      />
-                    ) : (
-                      <div className="work__img" aria-label="Product image placeholder" />
-                    )}
-                    <div className="work__meta">
-                      <div className="work__name">{product.name}</div>
-                      <div className="work__price">$ {product.price.toFixed(2)}</div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
-
-            {isSeller && (
-              <div style={{ marginTop: "30px", textAlign: "center" }}>
-                <a href="/products/add" className="btn btn--primary">
-                  Add New Product
-                </a>
-              </div>
+              <p className="profile__notice">
+                This is a customer account. No works to display.
+              </p>
             )}
           </div>
         </div>
@@ -209,4 +126,3 @@ export default function ProfilePage() {
     </main>
   );
 }
-

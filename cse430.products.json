@@ -1,0 +1,171 @@
+[{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d25f"
+  },
+  "name": "Handwoven Ceramic Vase",
+  "description": "Beautiful handcrafted ceramic vase with intricate blue and white patterns",
+  "price": 45.99,
+  "category": "Ceramics",
+  "quantity": 12,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/vase1.png",
+    "/products/vase2.png",
+    "/products/vase3.png",
+    "/products/vase4.png"],
+  "sellerId": {
+    "$oid": "6923fc07dadbab3fea8d4ce0"
+  }
+},
+{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d265"
+  },
+  "name": "Wool Cushion Cover",
+  "description": "Soft wool cushion cover with subtle geometric texture, made from natural fibers.",
+  "price": 42,
+  "category": "Textiles",
+  "quantity": 9,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/cushion1.png",
+    "/products/cushion2.png",
+    "/products/cushion3.png",
+    "/products/cushion4.png"],
+  "sellerId": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  }
+},
+{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d267"
+  },
+  "name": "Rustic Wooden Candle Holder",
+  "description": "Hand-carved wooden candle holder made from solid walnut wood with a warm natural finish.",
+  "price": 27.5,
+  "category": "Home Decor",
+  "quantity": 8,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/candle-holder1.png",
+    "/products/candle-holder2.png",
+    "/products/candle-holder3.png",
+    "/products/candle-holder4.png"],
+  "sellerId": {
+    "$oid": "6923fc07dadbab3fea8d4cdf"
+  }
+},
+{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d260"
+  },
+  "name": "Organic Cotton Throw Blanket",
+  "description": "Soft and cozy handwoven throw blanket made from 100% organic cotton",
+  "price": 79.99,
+  "category": "Textiles",
+  "quantity": 8,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/blanket1.png",
+    "/products/blanket2.png",
+    "/products/blanket3.png",
+    "/products/blanket4.png"],
+  "sellerId": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  }
+},
+{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d263"
+  },
+  "name": "Blue Glaze Ceramic Plate",
+  "description": "Hand-thrown ceramic plate featuring a deep blue glaze with subtle organic texture.",
+  "price": 29,
+  "category": "Ceramics",
+  "quantity": 14,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/blue-plate.png",
+    "/products/blue-plate2.png",
+    "/products/blue-plate3.png",
+    "/products/blue-plate4.png"],
+  "sellerId": {
+    "$oid": "6923fc07dadbab3fea8d4ce0"
+  }
+},
+{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d264"
+  },
+  "name": "Linen Table Runner",
+  "description": "Handwoven linen table runner in a warm neutral tone, designed for a cozy and elegant dining setup.",
+  "price": 54,
+  "category": "Textiles",
+  "quantity": 6,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/table-runner1.png",
+    "/products/table-runner2.png",
+    "/products/table-runner3.png",
+    "/products/table-runner4.png"],
+  "sellerId": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  }
+},
+{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d261"
+  },
+  "name": "Rustic Wooden Serving Board",
+  "description": "Hand-carved serving board made from solid walnut wood",
+  "price": 62.5,
+  "category": "Home Decor",
+  "quantity": 15,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/board1.png",
+    "/products/board2.png",
+    "/products/board3.png",
+    "/products/board4.png"],
+  "sellerId": {
+    "$oid": "6980a9cc8a4020afb12b5052"
+  }
+},
+{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d262"
+  },
+  "name": "Handcrafted Stoneware Bowl",
+  "description": "Minimalist stoneware bowl with a natural matte glaze, perfect for everyday dining or display.",
+  "price": 38.5,
+  "category": "Ceramics",
+  "quantity": 10,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/bowl1.png",
+    "/products/bowl2.png",
+    "/products/bowl3.png",
+    "/products/bowl4.png"],
+  "sellerId": {
+    "$oid": "6980a9cc8a4020afb12b5052"
+  }
+},
+{
+  "_id": {
+    "$oid": "6979f05f88a2d4d674b0d266"
+  },
+  "name": "Walnut Wooden Coasters (Set of 4)",
+  "description": "Handcrafted walnut wood coasters with smooth edges and natural grain finish.",
+  "price": 34.99,
+  "category": "Home Decor",
+  "quantity": 12,
+  "rating": 5.0,
+  "imageUrl": [
+    "/products/coasters1.png",
+    "/products/coasters2.png",
+    "/products/coasters3.png",
+    "/products/coasters4.png"],
+  "sellerId": {
+    "$oid": "6980a9cc8a4020afb12b5052"
+  }
+}]

@@ -1,0 +1,65 @@
+[{
+  "_id": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  },
+  "name": "Mira Halden",
+  "email": "mira.halden@email.com",
+  "country": "USA",
+  "bio": "I love creating handmade items that feel warm and natural. I enjoy working with simple materials and making decor that makes a home feel cozy.",
+  "rating": 4,
+  "avatar": "/users/mira-halden.png",
+  "password": "SecurePass123!",
+  "seller": true
+},
+{
+  "_id": {
+    "$oid": "6923fc07dadbab3fea8d4cdf"
+  },
+  "name": "Elias Renford",
+  "email": "elias.renford@email.com",
+  "country": "USA",
+  "bio": "I like crafting in my free time and trying new creative skills. I am especially interested in making useful, well-made items by hand.",
+  "rating": 4,
+  "avatar": "/users/elias-renford.png",
+  "password": "MyPassword456#",
+  "seller": false
+},
+{
+  "_id": {
+    "$oid": "6923fc07dadbab3fea8d4ce0"
+  },
+  "name": "Hana Lior",
+  "email": "hana.lior@email.com",
+  "country": "USA",
+  "bio": "I enjoy experimenting with modern designs and textures in my work. I love creating unique pieces and getting inspiration from small details around me.",
+  "rating": 5,
+  "avatar": "/users/hana-lior.png",
+  "password": "StrongPass789$",
+  "seller": true
+},
+{
+  "_id": {
+    "$oid": "6980a9cc8a4020afb12b5052"
+  },
+  "name": "Caleb Rowan",
+  "email": "test1@gmail.com",
+  "country": "United Arab Emirates",
+  "bio": "I enjoy experimenting with modern designs and textures in my work. I love creating unique pieces and getting inspiration from small details around me.",
+  "rating": 4,
+  "avatar": "/users/caleb-rowan.png",
+  "password": "$2b$10$qaTCdL8Nvg4kCv.6R/9FyugPDx4PdZkEs5IC719pwFhh.fgNmEeGC",
+  "seller": true
+},
+{
+  "_id": {
+    "$oid": "6980c0ca9ca8e60097cecf7c"
+  },
+  "name": "Iris Bellwood",
+  "email": "test2@gmail.com",
+  "country": "United Arab Emirates",
+  "bio": "I enjoy discovering handmade items and learning the stories behind them. I appreciate simple design, quality materials, and thoughtful details.",
+  "rating": 5,
+  "avatar": "/users/iris-bellwood.png",
+  "password": "$2b$10$Th6./CAY8fUS8lpH3liNAOhQ/qeMTGkptEOT.V3FyCggfok.Jf4Rm",
+  "seller": false
+}]

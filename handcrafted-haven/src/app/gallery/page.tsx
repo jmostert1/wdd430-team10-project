@@ -23,6 +23,7 @@ export default function GalleryPage() {
   const [error, setError] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState(1000);
+  const [sortBy, setSortBy] = useState("newest");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -81,8 +82,39 @@ export default function GalleryPage() {
     // Filter by price
     filtered = filtered.filter((product) => product.price <= maxPrice);
     console.log('After price filter:', filtered.length);
+// Apply sorting
+    applySorting(filtered);
+  };
 
-    setFilteredProducts(filtered);
+  const applySorting = (productsToSort: Product[]) => {
+    let sorted = [...productsToSort];
+
+    switch (sortBy) {
+      case "newest":
+        sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        break;
+      case "price-low":
+        sorted.sort((a, b) => b.price - a.price);
+        break;
+      case "price-high":
+        sorted.sort((a, b) => a.price - b.price);
+        break;
+    }
+
+    setFilteredProducts(sorted);
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSort = e.target.value;
+    setSortBy(newSort);
+    applySorting(filteredProducts);
+  };
+
+  const resetFilters = () => {
+    setSelectedCategories([]);
+    setMaxPrice(1000);
+    setSortBy("newest");
+    setFilteredProducts(products);
   };
 
   return (
@@ -155,6 +187,20 @@ export default function GalleryPage() {
             >
               Apply
             </button>
+
+            <button
+              className="btn filters__apply"
+              type="button"
+              onClick={resetFilters}
+              style={{
+                marginTop: "10px",
+                background: "#fff",
+                color: "#333",
+                border: "1px solid #ddd"
+              }}
+            >
+              Reset Filters
+            </button>
           </aside>
 
           {/* RIGHT PANEL */}
@@ -165,11 +211,10 @@ export default function GalleryPage() {
               </div>
 
               <div className="select select--wide">
-                <select aria-label="Sort dropdown">
-                  <option>Sort By Most Popular</option>
-                  <option>Sort By Newest</option>
-                  <option>Sort By Price: Low to High</option>
-                  <option>Sort By Price: High to Low</option>
+                <select aria-label="Sort dropdown" value={sortBy} onChange={handleSortChange}>
+                  <option value="newest">Sort By Newest</option>
+                  <option value="price-low">Sort By Price: Low to High</option>
+                  <option value="price-high">Sort By Price: High to Low</option>
                 </select>
               </div>
             </div>

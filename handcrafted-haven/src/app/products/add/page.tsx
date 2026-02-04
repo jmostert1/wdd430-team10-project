@@ -175,18 +175,22 @@ export default function AddProductPage() {
                   <label htmlFor="category" className="form-label">
                     Category
                   </label>
-                  <input
-                    type="text"
+                  <select
                     id="category"
                     name="category"
                     className="form-input"
-                    placeholder="Pottery, Jewelry, Textiles, etc."
                     value={formData.category}
                     onChange={(e) =>
                       setFormData({ ...formData, category: e.target.value })
                     }
                     required
-                  />
+                  >
+                    <option value="">Select a category</option>
+                    <option value="Pottery">Pottery</option>
+                    <option value="Jewelry">Jewelry</option>
+                    <option value="Textile">Textile</option>
+                    <option value="Ceramic">Ceramic</option>
+                  </select>
                 </div>
 
                 <div className="form-group">

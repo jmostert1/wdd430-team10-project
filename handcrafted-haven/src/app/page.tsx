@@ -41,8 +41,12 @@ export default function HomePage() {
             className="hero__media"
             role="img"
             aria-label="Featured handcrafted products"
+            style={{
+              backgroundImage: "url('/hero.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center"
+            }}
           >
-            {/* Will need to add image here later */}
           </div>
         </div>
       </section>

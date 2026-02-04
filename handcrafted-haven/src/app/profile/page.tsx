@@ -58,11 +58,7 @@ export default function ProfilePage() {
             {/* Seller info */}
             <div className="seller">
               <div className="seller__left">
-                <img
-                  className="seller__avatar"
-                  src={user.avatar || "/users/default-avatar.png"}
-                  alt={`${user.name} avatar`}
-                />
+                <div className="seller__avatar" aria-label="Seller avatar" />
                 {user.seller && (
                   <a className="btn btn--primary seller__btn" href="/profile/edit">
                     Edit Profile
@@ -95,16 +91,12 @@ export default function ProfilePage() {
                     <p>No works yet.</p>
                   ) : (
                     products.map((p) => (
-                      <Link 
+                      <ProductCard
                         key={p._id}
-                        href={`/items/${p._id}`} 
-                        className="cardLink">
-                        <ProductCard
-                          name={p.name}
-                          price={Number(p.price)}
-                          imageSrc={p.imageUrl?.[0]}
-                        />
-                      </Link>
+                        name={p.name}
+                        price={Number(p.price)}
+                        imageSrc={p.imageUrl?.[0]}
+                      />
                     ))
                   )}
                 </div>

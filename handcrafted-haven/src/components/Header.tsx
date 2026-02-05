@@ -1,13 +1,23 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import useAuthUser from "@/hooks/useAuth";
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Load auth user
   const { isLoggedIn, signOut } = useAuthUser();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/gallery?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <header className="header">
@@ -29,14 +39,16 @@ export default function Header() {
           </nav>
 
           {/* Search */}
-          <div className="header__search">
+          <form className="header__search" onSubmit={handleSearch}>
             <input
               type="search"
               placeholder="Search products..."
               aria-label="Search products"
               className="search__input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
+          </form>
 
           {/* CTA */}
           <div className="header__cta">

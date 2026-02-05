@@ -1,7 +1,125 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Header from "@/components/Header";
+import ProductCard from "@/components/ProductCard";
+import Link from "next/link";
 import "./gallery.css";
 
+type Product = {
+  _id: string;
+  name: string;
+  price: number;
+  category?: string;
+  imageUrl?: string[];
+  rating?: number;
+};
+
 export default function GalleryPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchQuery = searchParams.get("search") || "";
+  
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [maxPrice, setMaxPrice] = useState<number>(1000);
+  const [sortBy, setSortBy] = useState<string>("");
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setProducts(data.products);
+          setFilteredProducts(data.products);
+        }
+      })
+      .catch((err) => console.error("Failed to load products:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Apply search when search query changes
+  useEffect(() => {
+    if (searchQuery) {
+      applyFilters();
+    }
+  }, [searchQuery, products]);
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const applyFilters = () => {
+    let filtered = products;
+
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter((p) =>
+        p.name.toLowerCase().includes(query) ||
+        p.category?.toLowerCase().includes(query)
+      );
+    }
+
+    // Filter by category
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter((p) =>
+        selectedCategories.includes(p.category || "")
+      );
+    }
+
+    // Filter by price
+    filtered = filtered.filter((p) => p.price <= maxPrice);
+
+    // Apply sorting
+    filtered = applySorting(filtered, sortBy);
+
+    setFilteredProducts(filtered);
+  };
+
+  const applySorting = (productsToSort: Product[], sortValue: string) => {
+    const sorted = [...productsToSort];
+
+    if (sortValue === "price-low") {
+      sorted.sort((a, b) => b.price - a.price);
+    } else if (sortValue === "price-high") {
+      sorted.sort((a, b) => a.price - b.price);
+    } else if (sortValue === "rating") {
+      sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    }
+
+    return sorted;
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setSortBy(value);
+    
+    // Apply sorting immediately with the new value
+    const sorted = applySorting(filteredProducts, value);
+    setFilteredProducts(sorted);
+  };
+
+  const resetFilters = () => {
+    setSelectedCategories([]);
+    setMaxPrice(1000);
+    setSortBy("");
+    setFilteredProducts(products);
+    
+    // Clear search query from URL if present
+    if (searchQuery) {
+      router.push("/gallery");
+    }
+  };
+
   return (
     <main className="page">
       <Header />
@@ -15,19 +133,27 @@ export default function GalleryPage() {
             <h3 className="panel__subtitle">Category</h3>
 
             <label className="check">
-              <input type="checkbox" />
+              <input 
+                type="checkbox" 
+                checked={selectedCategories.includes("Home Decor")}
+                onChange={() => handleCategoryChange("Home Decor")}
+              />
               <span>Home Decor</span>
             </label>
             <label className="check">
-              <input type="checkbox" />
-              <span>Jewelry</span>
-            </label>
-            <label className="check">
-              <input type="checkbox" />
+              <input 
+                type="checkbox" 
+                checked={selectedCategories.includes("Ceramics")}
+                onChange={() => handleCategoryChange("Ceramics")}
+              />
               <span>Ceramics</span>
             </label>
             <label className="check">
-              <input type="checkbox" />
+              <input 
+                type="checkbox" 
+                checked={selectedCategories.includes("Textiles")}
+                onChange={() => handleCategoryChange("Textiles")}
+              />
               <span>Textiles</span>
             </label>
 
@@ -37,13 +163,24 @@ export default function GalleryPage() {
 
             <div className="price__labels">
               <span>$10</span>
-              <span>$1000</span>
+              <span>${maxPrice}</span>
             </div>
 
-            <input className="price__range" type="range" min={10} max={1000} defaultValue={700} />
+            <input 
+              className="price__range" 
+              type="range" 
+              min={10} 
+              max={1000} 
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+            />
 
-            <button className="btn btn--primary filters__apply" type="button">
+            <button className="btn btn--primary filters__apply" type="button" onClick={applyFilters}>
               Apply
+            </button>
+            
+            <button className="btn btn--secondary filters__apply" type="button" onClick={resetFilters} style={{ marginTop: '10px' }}>
+              Reset Filters
             </button>
           </aside>
 
@@ -52,43 +189,43 @@ export default function GalleryPage() {
             <div className="results__header">
               <div>
                 <h1 className="results__title">Gallery</h1>
-
-                <div className="select select--small">
-                  <select aria-label="Price range dropdown">
-                    <option>$10 - $1000</option>
-                    <option>$10 - $100</option>
-                    <option>$100 - $500</option>
-                    <option>$500 - $1000</option>
-                  </select>
-                </div>
+                {searchQuery && (
+                  <p style={{ fontSize: '14px', color: '#666', marginTop: '5px' }}>
+                    Search results for: "{searchQuery}"
+                  </p>
+                )}
               </div>
 
               <div className="select select--wide">
-                <select aria-label="Sort dropdown">
-                  <option>Sort By Most Popular</option>
-                  <option>Sort By Newest</option>
-                  <option>Sort By Price: Low to High</option>
-                  <option>Sort By Price: High to Low</option>
+                <select aria-label="Sort dropdown" value={sortBy} onChange={handleSortChange}>
+                  <option value="">Sort By</option>
+                  <option value="price-low">Sort By Price: Low to High</option>
+                  <option value="price-high">Sort By Price: High to Low</option>
+                  <option value="rating">Sort By Rating</option>
                 </select>
               </div>
             </div>
 
             <div className="products">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <article className="product" key={i}>
-                  <div className="product__img">
-                    <button className="product__heart" type="button" aria-label="Favorite">
-                      ♡
-                    </button>
-                  </div>
-
-                  <div className="product__meta">
-                    <div className="product__name">Name of the Item</div>
-                    <div className="product__price">$ 25.00</div>
-                    <div className="product__store">Store Name</div>
-                  </div>
-                </article>
-              ))}
+              {loading ? (
+                <p>Loading products...</p>
+              ) : filteredProducts.length === 0 ? (
+                <p>{searchQuery ? `No products found for "${searchQuery}"` : "No products available."}</p>
+              ) : (
+                filteredProducts.map((product) => (
+                  <Link 
+                    key={product._id}
+                    href={`/items/${product._id}`}
+                    className="cardLink"
+                  >
+                    <ProductCard
+                      name={product.name}
+                      price={Number(product.price)}
+                      imageSrc={product.imageUrl?.[0]}
+                    />
+                  </Link>
+                ))
+              )}
             </div>
           </section>
         </div>

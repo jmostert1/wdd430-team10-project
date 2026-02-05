@@ -157,6 +157,17 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--color-accent);
 }
 
+.btn--secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.btn--secondary:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
 /* Hero */
 .hero {
   background: var(--color-bg);

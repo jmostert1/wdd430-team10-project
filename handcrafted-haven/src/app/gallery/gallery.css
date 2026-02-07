@@ -148,6 +148,17 @@
   padding-top: 6px;
 }
 
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.cardLink:hover {
+  transform: translateY(-4px);
+}
+
 .product {
   display: flex;
   flex-direction: column;

@@ -89,9 +89,9 @@ export default function GalleryPage() {
     const sorted = [...productsToSort];
 
     if (sortValue === "price-low") {
-      sorted.sort((a, b) => b.price - a.price);
-    } else if (sortValue === "price-high") {
       sorted.sort((a, b) => a.price - b.price);
+    } else if (sortValue === "price-high") {
+      sorted.sort((a, b) => b.price - a.price);
     } else if (sortValue === "rating") {
       sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
     }

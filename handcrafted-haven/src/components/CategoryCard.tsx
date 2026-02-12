@@ -4,7 +4,7 @@ import Link from "next/link";
 interface CategoryCardProps {
   src: string;
   alt: string;
-  title: string; // ADDED
+  title: string;
   href: string;
 }
 
@@ -19,7 +19,7 @@ export default function CategoryCard({ src, alt, title, href }: CategoryCardProp
         className="card__img"
       />
 
-      {/* ADDED overlay */}
+      {/* overlay */}
       <div className="card__overlay">
         <h3 className="card__title">{title}</h3>
       </div>

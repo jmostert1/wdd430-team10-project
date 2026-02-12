@@ -20,6 +20,7 @@ export default function GalleryPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchQuery = searchParams.get("search") || "";
+  const categoryQuery = searchParams.get("category") || ""; // Optional category filter from URL needed for home page
   
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -35,7 +36,17 @@ export default function GalleryPage() {
       .then((data) => {
         if (data.success) {
           setProducts(data.products);
-          setFilteredProducts(data.products);
+
+          // apply category filter immediately on first load so the page would not "jump"
+          if (categoryQuery) {
+            setSelectedCategories([categoryQuery]); 
+            const initialFiltered = data.products.filter( 
+              (p: Product) => (p.category || "") === categoryQuery 
+            );
+            setFilteredProducts(initialFiltered); 
+          } else {
+            setFilteredProducts(data.products);
+          }
         }
       })
       .catch((err) => console.error("Failed to load products:", err))
@@ -48,6 +59,14 @@ export default function GalleryPage() {
       applyFilters();
     }
   }, [searchQuery, products]);
+
+    // auto-apply category filter when category query changes (needed for home page links to work)
+  useEffect(() => {
+    if (categoryQuery && products.length > 0) {
+      setSelectedCategories([categoryQuery]);
+      applyFilters();
+    }
+  }, [categoryQuery, products]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategories((prev) =>
@@ -63,16 +82,25 @@ export default function GalleryPage() {
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
+      const categoryParam = searchParams.get("category") || "";
       filtered = filtered.filter((p) =>
         p.name.toLowerCase().includes(query) ||
         p.category?.toLowerCase().includes(query)
       );
     }
 
+    // if URL has category and user hasn't selected any checkboxes yet, use URL category
+    const activeCategories =
+      selectedCategories.length > 0
+        ? selectedCategories
+        : categoryQuery
+        ? [categoryQuery]
+        : [];
+
     // Filter by category
-    if (selectedCategories.length > 0) {
+    if (activeCategories.length > 0) {     //activeCategories instead of only selectedCategories
       filtered = filtered.filter((p) =>
-        selectedCategories.includes(p.category || "")
+        activeCategories.includes(p.category || "")
       );
     }
 
@@ -81,7 +109,6 @@ export default function GalleryPage() {
 
     // Apply sorting
     filtered = applySorting(filtered, sortBy);
-
     setFilteredProducts(filtered);
   };
 
@@ -114,8 +141,8 @@ export default function GalleryPage() {
     setSortBy("");
     setFilteredProducts(products);
     
-    // Clear search query from URL if present
-    if (searchQuery) {
+    // Clear search and categoryquery from URL if present
+    if (searchQuery || categoryQuery) {
       router.push("/gallery");
     }
   };

@@ -60,6 +60,33 @@ export async function POST(req: Request) {
     };
 
     const result = await db.collection("comments").insertOne(newComment);
+    
+    // Recalculate product rating based on all comments for this product
+    const stats = await db
+      .collection("comments")
+      .aggregate([
+        { $match: { productId: new ObjectId(productId) } },
+        {
+          $group: {
+            _id: "$productId",
+            avgRating: { $avg: "$rating" },
+            ratingCount: { $sum: 1 },
+          },
+        },
+      ])
+      .toArray();
+
+    const avgRating = stats[0]?.avgRating ?? safeRating;
+
+    // Update product document with new average rating
+    await db.collection("products").updateOne(
+      { _id: new ObjectId(productId) },
+      {
+        $set: {
+          rating: Number(avgRating.toFixed(1)), // round to 1 decimal
+        },
+      }
+    );
 
     return NextResponse.json(
       { ok: true, commentId: result.insertedId.toString() },

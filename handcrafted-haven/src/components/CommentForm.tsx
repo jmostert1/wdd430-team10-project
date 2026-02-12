@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useAuthUser from "@/hooks/useAuth";
 
@@ -21,6 +21,14 @@ export default function CommentForm({ productId, isOpen, onClose }: CommentFormP
   // UI messages
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Clear old messages every time the form is opened
+  useEffect(() => {
+    if (isOpen) {
+      setError("");
+      setSuccess("");
+    }
+  }, [isOpen]);
 
   // If not open, render nothing
   if (!isOpen) return null;
@@ -78,10 +86,12 @@ export default function CommentForm({ productId, isOpen, onClose }: CommentFormP
       setText("");
       setRating(5);
 
-      // Close form and refresh product page data
-      onClose();
-      router.refresh();
-    } catch {
+      // Wait before refresh
+      setTimeout(() => {
+        onClose();
+        router.refresh();
+      }, 2000);
+    } catch (err) {
       setError("Error. Try again.");
     }
   };

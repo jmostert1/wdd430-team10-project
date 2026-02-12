@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import ProductImageCarousel from "@/components/ProductImageCarousel";
 import ReviewCard from "@/components/ReviewCard";
 import SellerInfo from "@/components/SellerInfo";
+import ProductDetails from "@/components/ProductDetails";
 
 
 type PageProps = {
@@ -77,14 +78,12 @@ export default async function ItemPage({ params }: PageProps) {
                   <p>{product.description}</p>
                 </div>
 
-                <div className="details__actions">
-                  <button className="btn btn--primary details__btn" type="button">
-                    Add to Cart
-                  </button>
-                  <button className="btn btn--primary details__btn" type="button">
-                    Save for Later
-                  </button>
-                </div>
+                <ProductDetails
+                  productId={id}
+                  name={product.name}
+                  price={Number(product.price)}
+                  imageSrc={images[0]}
+                />
               </div>
             </div>
           </div>

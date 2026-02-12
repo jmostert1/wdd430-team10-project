@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function useSellerProducts(sellerId: string) {
   const [products, setProducts] = useState<any[]>([]);
   const [loadingWorks, setLoadingWorks] = useState(true);
 
-  useEffect(() => {
+  const fetchProducts = useCallback(() => {
     // if not sellerId -> stop loading and clear products
     if (!sellerId) {
       setProducts([]);
@@ -24,5 +24,9 @@ export default function useSellerProducts(sellerId: string) {
       .finally(() => setLoadingWorks(false));
   }, [sellerId]);
 
-  return { products, loadingWorks };
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  return { products, loadingWorks, refetchProducts: fetchProducts };
 }

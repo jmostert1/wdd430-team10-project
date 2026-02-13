@@ -241,9 +241,8 @@
   }
 
   .cart-item__remove {
-    position: absolute;
-    right: 20px;
-    top: 20px;
+    position: relative;
+    left: 10px;
   }
 
   .cart-summary__row {

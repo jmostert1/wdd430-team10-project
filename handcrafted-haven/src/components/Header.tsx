@@ -4,11 +4,20 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import useAuthUser from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
+import { useEffect } from "react";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+
+  // DO NOT DELETE
+  // Ensure component is mounted before accessing browser-specific APIs
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Load auth user
   const { isLoggedIn, signOut } = useAuthUser();
@@ -22,6 +31,9 @@ export default function Header() {
       router.push(`/gallery?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+
+  // Do NOT DELETE - Prevent hydration mismatch by only rendering after component is mounted
+  if (!mounted) return null;
 
   return (
     <header className="header">
@@ -85,14 +97,65 @@ export default function Header() {
             )}
 
             {isLoggedIn ? (
-              <button onClick={signOut} className="btn btn--primary">
+            <>
+              {/* Desktop button */}
+              <button onClick={signOut} className="btn btn--primary header__loginBtn">
                 Sign Out
               </button>
-            ) : (
-              <a className="btn btn--primary" href="/login">
+
+              {/* Mobile icon */}
+              <button
+                onClick={signOut}
+                className="header__loginIcon"
+                aria-label="Sign Out"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+              </button>
+            </>
+          ) : (
+            <>
+              {/* Desktop button */}
+              <a className="btn btn--primary header__loginBtn" href="/login">
                 Login
               </a>
-            )}
+
+              {/* Mobile icon */}
+              <a 
+                href="/login" 
+                className="header__loginIcon"
+                aria-label="Login"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 21a8 8 0 0 0-16 0" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </a>
+            </>
+          )}
           </div>
         </div>
       </div>

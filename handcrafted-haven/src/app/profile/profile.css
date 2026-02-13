@@ -121,7 +121,8 @@
 
 .profile__notice {
   padding-top: 12px;
-  color: #666;
+  text-align: center;
+  color: var(--color-text);
   font-size: 0.9rem;
 }
 

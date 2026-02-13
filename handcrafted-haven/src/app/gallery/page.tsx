@@ -235,7 +235,7 @@ export default function GalleryPage() {
 
             <div className="products">
               {loading ? (
-                <p>Loading products...</p>
+                <p className="gallery__notice">Loading products...</p>
               ) : filteredProducts.length === 0 ? (
                 <p>{searchQuery ? `No products found for "${searchQuery}"` : "No products available."}</p>
               ) : (

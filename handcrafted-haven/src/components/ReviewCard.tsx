@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type ReviewCardProps = {
   name: string;
   date: string;
@@ -19,7 +21,13 @@ export default function ReviewCard({
     <div className="reviewPreview">
       <div className="reviewPreview__top">
         {avatarSrc ? (
-          <img className="avatar" src={avatarSrc} alt={`${name} avatar`} />
+          <Image
+            className="avatar"
+            src={avatarSrc}
+            alt={`${name} avatar`}
+            width={40}
+            height={40}
+          />
         ) : (
           <div className="avatar" />
         )}

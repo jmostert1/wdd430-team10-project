@@ -1,23 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import CategoryCard from "@/components/CategoryCard";
 import Image from "next/image";
+import { useMemo } from "react";
+
 
 export default function HomePage() {
   const searchParams = useSearchParams();
-  const [success, setSuccess] = useState("");
 
-  useEffect(() => {
-    const successMessage = searchParams.get("success");
-    if (successMessage) {
-      setSuccess(successMessage);
-      // Clear the success message after 5 seconds
-      setTimeout(() => setSuccess(""), 5000);
-    }
-  }, [searchParams]);
+  const success = useMemo(() => {
+  return searchParams.get("success") ?? "";
+}, [searchParams]);
+
 
   return (
     <main className="page">

@@ -1,6 +1,7 @@
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import Link from "next/link";
+import Image from "next/image";
 
 type SellerInfoProps = {
   sellerId: string; // we'll pass String(product.sellerId)
@@ -37,10 +38,12 @@ export default async function SellerInfo({ sellerId }: SellerInfoProps) {
 
   return (
     <div className="sellerRow">
-      <img
+      <Image
         className="avatar avatar--xs"
         src={seller.avatar || "/users/default-avatar.png"}
         alt={`${seller.name} avatar`}
+        width={32}
+        height={32}
       />
 
       <div className="sellerRow__text">

@@ -27,7 +27,7 @@ export default function GalleryPage() {
   const [loading, setLoading] = useState(true);
   
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [maxPrice, setMaxPrice] = useState<number>(1000);
+  const [maxPrice, setMaxPrice] = useState<number>(100);
   const [sortBy, setSortBy] = useState<string>("");
 
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function GalleryPage() {
 
   const resetFilters = () => {
     setSelectedCategories([]);
-    setMaxPrice(1000);
+    setMaxPrice(100);
     setSortBy("");
     setFilteredProducts(products);
     
@@ -197,7 +197,7 @@ export default function GalleryPage() {
               className="price__range" 
               type="range" 
               min={10} 
-              max={1000} 
+              max={100} 
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
             />

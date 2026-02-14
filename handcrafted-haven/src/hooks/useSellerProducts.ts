@@ -1,7 +1,16 @@
 import { useEffect, useState, useCallback } from "react";
 
+type Product = {
+  _id: string;
+  name: string;
+  price: number;
+  category?: string;
+  imageUrl?: string[];
+  rating?: number;
+};
+
 export default function useSellerProducts(sellerId: string) {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loadingWorks, setLoadingWorks] = useState(true);
 
   const fetchProducts = useCallback(() => {
@@ -25,8 +34,12 @@ export default function useSellerProducts(sellerId: string) {
   }, [sellerId]);
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+  const run = async () => {
+    await fetchProducts();
+  };
+
+  run();
+}, [fetchProducts]);
 
   return { products, loadingWorks, refetchProducts: fetchProducts };
 }

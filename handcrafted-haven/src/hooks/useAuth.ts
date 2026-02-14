@@ -19,6 +19,12 @@ export default function useAuthUser(options?: { redirectToLogin?: boolean }) {
   const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
+  const run = async () => {
+    if (typeof window === "undefined") {
+      setLoadingUser(false);
+      return;
+    }
+
     const token = localStorage.getItem("token");
 
     // no token
@@ -29,25 +35,33 @@ export default function useAuthUser(options?: { redirectToLogin?: boolean }) {
       return;
     }
 
-    fetch("/api/auth/user", { headers: { Authorization: `Bearer ${token}` } })
-      .then((r) => r.json())
-      .then((data) => {
-        if (!data.success) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          setUser(null);
-          if (redirectToLogin) router.push("/login");
-          return;
-        }
+    try {
+      const response = await fetch("/api/auth/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-        setUser(data.user);
-      })
-      .catch(() => {
+      const data = await response.json();
+
+      if (!data.success) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setUser(null);
         if (redirectToLogin) router.push("/login");
-      })
-      .finally(() => setLoadingUser(false));
-  }, [router, redirectToLogin]);
+        return;
+      }
+
+      setUser(data.user);
+    } catch {
+      setUser(null);
+      if (redirectToLogin) router.push("/login");
+    } finally {
+      setLoadingUser(false);
+    }
+  };
+
+  run();
+}, [router, redirectToLogin]);
+
 
   const signOut = () => {
     localStorage.removeItem("token");

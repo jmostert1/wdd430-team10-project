@@ -24,10 +24,14 @@ export default function CommentForm({ productId, isOpen, onClose }: CommentFormP
 
   // Clear old messages every time the form is opened
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+
+    const reset = () => {
       setError("");
       setSuccess("");
-    }
+    };
+
+    reset();
   }, [isOpen]);
 
   // If not open, render nothing
@@ -91,7 +95,7 @@ export default function CommentForm({ productId, isOpen, onClose }: CommentFormP
         onClose();
         router.refresh();
       }, 2000);
-    } catch (err) {
+    } catch {
       setError("Error. Try again.");
     }
   };

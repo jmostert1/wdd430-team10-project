@@ -7,6 +7,8 @@ import Link from "next/link";
 import useSellerProducts from "@/hooks/useSellerProducts";
 import useAuthUser from "@/hooks/useAuth";
 import { useState, FormEvent } from "react";
+import Image from "next/image";
+
 
 export default function ProfilePage() {
   // Load auth user
@@ -97,12 +99,16 @@ export default function ProfilePage() {
         setIsEditMode(false);
         window.location.reload();
       }, 1500);
-    } catch (err: any) {
-      setEditError(err.message || "An error occurred");
+    } catch (err) {
+      if (err instanceof Error) {
+        setEditError(err.message);
+      } else {
+        setEditError("An error occurred");
+      }
     } finally {
-      setEditLoading(false);
-    }
-  };
+          setEditLoading(false);
+        }
+      };
 
   // Handle add product
   const handleAddProduct = async (e: FormEvent) => {
@@ -154,12 +160,16 @@ export default function ProfilePage() {
         setIsAddProductMode(false);
         setProductSuccess("");
       }, 1500);
-    } catch (err: any) {
-      setProductError(err.message || "An error occurred");
+    } catch (err) {
+      if (err instanceof Error) {
+        setProductError(err.message);
+      } else {
+        setProductError("An error occurred");
+      }
     } finally {
-      setProductLoading(false);
-    }
-  };
+          setProductLoading(false);
+        }
+      };
 
   return (
     <main className="page">
@@ -170,10 +180,13 @@ export default function ProfilePage() {
             {/* Seller info */}
             <div className="seller">
               <div className="seller__left">
-                <img
+                <Image
                   className="seller__avatar"
                   src={user.avatar || "/users/default-avatar.png"}
                   alt={`${user.name} avatar`}
+                  width={140}
+                  height={140}
+                  priority
                 />
                 <button
                   className="btn btn--primary seller__btn"

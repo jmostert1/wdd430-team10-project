@@ -1,16 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
+
 
 type ProductImageCarouselProps = {
   images: string[];
   alt: string;
 };
 
-export default function ProductImageCarousel({ images, alt }: ProductImageCarouselProps) {
+export default function ProductImageCarousel({ images = [], alt }: ProductImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  if (!images || images.length === 0) return null;
 
   const showPrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -22,35 +22,40 @@ export default function ProductImageCarousel({ images, alt }: ProductImageCarous
 
   const selectImage = (index: number) => setCurrentIndex(index);
 
-  // Compute which 3 thumbnails to show so the active image stays visible.
-  const { startIndex, visibleThumbs } = useMemo(() => {
+  const visibleThumbs = useMemo(() => {
     const visibleCount = 3;
 
+    if (!images || images.length === 0) return [];
+
     if (images.length <= visibleCount) {
-      return { startIndex: 0, visibleThumbs: images.map((img, index) => ({ img, index })) };
+      return images.map((img, index) => ({ img, index }));
     }
 
     const maxStart = images.length - visibleCount;
     const start = Math.max(0, Math.min(currentIndex - 1, maxStart));
 
-    const slice = images.slice(start, start + visibleCount).map((img, i) => ({
+    return images.slice(start, start + visibleCount).map((img, i) => ({
       img,
       index: start + i,
     }));
-
-    return { startIndex: start, visibleThumbs: slice };
   }, [images, currentIndex]);
+
+  if (!images || images.length === 0) return null;
 
   return (
     <>
-      {/* Main image */}
       <div className="media__main">
-        <img src={images[currentIndex]} alt={alt} className="media__mainImg" />
+        <Image
+          src={images[currentIndex]}
+          alt={alt}
+          fill
+          className="media__mainImg"
+          sizes="(max-width: 900px) 100vw, 600px"
+        />
       </div>
 
-      {/* Thumbnails + arrows */}
       <div className="media__thumbRow">
-        <button className="thumbNav" type="button" onClick={showPrev} aria-label="Previous image">
+        <button type="button" className="thumbNav" onClick={showPrev} aria-label="Previous image">
           ‹
         </button>
 
@@ -60,11 +65,17 @@ export default function ProductImageCarousel({ images, alt }: ProductImageCarous
             className={`thumb ${index === currentIndex ? "thumb--active" : ""}`}
             onClick={() => selectImage(index)}
           >
-            <img src={img} alt="" className="thumb__img" />
+            <Image
+              src={img}
+              alt=""
+              fill
+              className="thumb__img"
+              sizes="100px"
+            />
           </div>
         ))}
 
-        <button className="thumbNav" type="button" onClick={showNext} aria-label="Next image">
+        <button type="button" className="thumbNav" onClick={showNext} aria-label="Next image">
           ›
         </button>
       </div>

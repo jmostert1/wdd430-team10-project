@@ -55,8 +55,12 @@ export default function LoginPage() {
 
       // Redirect to home page with welcome message
       router.push("/?success=Welcome back, " + data.user.name + "!");
-    } catch (err: any) {
-      setError(err.message || "An error occurred during login");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An error occurred during login");
+      }
     } finally {
       setLoading(false);
     }
@@ -151,7 +155,7 @@ export default function LoginPage() {
               </div>
 
               <p className="signup-prompt">
-                Don't have an account?{" "}
+                Do not have an account?{" "}
                 <Link href="/signup" className="signup-link">
                   Create one
                 </Link>

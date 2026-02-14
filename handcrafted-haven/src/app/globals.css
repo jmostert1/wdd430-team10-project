@@ -18,6 +18,10 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
   background-color: var(--color-bg);
@@ -48,13 +52,15 @@ h1, h2, h3, h4, h5, h6 {
 .header {
   background: var(--color-bg);
   border-bottom: 1px solid rgba(42, 23, 20, 0.12);
+  height: 70px; 
 }
 
 .header__inner {
   display: flex;
   align-items: center;
   gap: 30px;
-  padding: 10px
+  padding: 10px;
+  height: 100%; 
 }
 
 .brand {
@@ -135,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   gap: 16px;
   justify-content: end;
-  padding: 5px;
+  padding: 0px;
 }
 
 /* Cart Icon */
@@ -149,6 +155,9 @@ h1, h2, h3, h4, h5, h6 {
   padding: 8px;
   border-radius: 6px;
   transition: background-color 0.2s;
+  height: 40px;
+  width: 40px;
+  padding: 0; 
 }
 
 .cart-icon:hover {
@@ -194,6 +203,7 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   border-radius: 6px;
   padding: 10px 18px;
+  line-height: 1;
   font-weight: 600;
   text-decoration: none;
   font-family: var(--font-body);
@@ -218,6 +228,16 @@ h1, h2, h3, h4, h5, h6 {
 .btn--secondary:hover {
   background: var(--color-primary);
   color: #fff;
+}
+
+.header__loginBtn {
+  min-width: 110px;
+  justify-content: center;
+}
+
+button.btn {
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 /* Hero */
@@ -348,16 +368,16 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .brand__name {
-    font-size: 20px;         /* smaller on mobile */
-    white-space: nowrap;     /* do not wrap */
-    overflow: hidden;        /* if still too long */
-    text-overflow: ellipsis; /* show ... */
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .header__cta {
     flex: 0 0 auto;
     margin-left: auto;
-    gap: 5px; /* a bit tighter */
+    gap: 5px;
   }
 
   /* Hide desktop login button */

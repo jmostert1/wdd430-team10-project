@@ -4,20 +4,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import useAuthUser from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
-import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-
-  // DO NOT DELETE
-  // Ensure component is mounted before accessing browser-specific APIs
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Load auth user
   const { isLoggedIn, signOut } = useAuthUser();
@@ -32,26 +24,23 @@ export default function Header() {
     }
   };
 
-  // Do NOT DELETE - Prevent hydration mismatch by only rendering after component is mounted
-  if (!mounted) return null;
-
   return (
     <header className="header">
       <div className="container">
         <div className="header__inner">
           {/* Logo */}
-          <a className="brand" href="/" aria-label="Handcrafted Haven home">
+          <Link className="brand" href="/" aria-label="Handcrafted Haven home">
             <span className="brand__icon" aria-hidden="true">
               HH
             </span>
             <span className="brand__name">Handcrafted Haven</span>
-          </a>
+          </Link>
 
           {/* Navigation */}
           <nav className="nav" aria-label="Main navigation">
-            <a className={`nav__link ${pathname === "/" ? "nav__link--active" : ""}`} href="/">HOME</a>
-            <a className={`nav__link ${pathname === "/gallery" ? "nav__link--active" : ""}`} href="/gallery">GALLERY</a>
-            <a className={`nav__link ${pathname === "/profile" ? "nav__link--active" : ""}`} href="/profile">PROFILE</a>
+            <Link className={`nav__link ${pathname === "/" ? "nav__link--active" : ""}`} href="/">HOME</Link>
+            <Link className={`nav__link ${pathname === "/gallery" ? "nav__link--active" : ""}`} href="/gallery">GALLERY</Link>
+            <Link className={`nav__link ${pathname === "/profile" ? "nav__link--active" : ""}`} href="/profile">PROFILE</Link>
           </nav>
 
           {/* Search */}
@@ -129,9 +118,13 @@ export default function Header() {
           ) : (
             <>
               {/* Desktop button */}
-              <a className="btn btn--primary header__loginBtn" href="/login">
+              <button
+                type="button"
+                className="btn btn--primary header__loginBtn"
+                onClick={() => router.push("/login")}
+              >
                 Login
-              </a>
+              </button>
 
               {/* Mobile icon */}
               <a 

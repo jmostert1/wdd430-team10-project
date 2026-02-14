@@ -4,6 +4,7 @@ import { useState, FormEvent, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import "./login.css";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -151,9 +152,9 @@ export default function LoginPage() {
 
               <p className="signup-prompt">
                 Don't have an account?{" "}
-                <a href="/signup" className="signup-link">
+                <Link href="/signup" className="signup-link">
                   Create one
-                </a>
+                </Link>
               </p>
             </div>
           </div>

@@ -350,12 +350,17 @@ button.btn {
 
 /* Responsive */
 @media (max-width: 900px) {
+  .header {
+    height: auto;
+  }
+
   .header__inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 12px;
+    padding: 10px 0; 
   }
 
   /* Row 1: logo left, CTA right */
@@ -398,6 +403,7 @@ button.btn {
     flex: 0 0 100%;
     width: 100%;
     margin-top: 8px;
+    justify-content: stretch;
   }
 
   .header__search {
@@ -405,8 +411,10 @@ button.btn {
   }
 
   .search__input {
-    max-width: 100%;
+    max-width: none;
     width: 100%;
+    height: 40px;
+    padding: 10px 12px;
   }
 
   /* Row 4: nav full width, centered Looks fine*/

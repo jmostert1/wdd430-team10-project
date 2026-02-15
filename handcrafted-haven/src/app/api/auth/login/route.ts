@@ -51,7 +51,11 @@ export async function POST(request: NextRequest) {
     );
 
     // Return user data (without password) and token
-    const { password: _, ...userWithoutPassword } = user;
+    const userWithoutPassword: Omit<typeof user, "password"> & { password?: string } = {
+      ...user,
+    };
+
+    delete userWithoutPassword.password;
 
     return NextResponse.json({
       success: true,
@@ -59,10 +63,16 @@ export async function POST(request: NextRequest) {
       user: userWithoutPassword
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Login error:', error);
+
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'An error occurred during login';
+
     return NextResponse.json(
-      { error: 'An error occurred during login' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

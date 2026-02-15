@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import bcrypt from 'bcryptjs';
 
 // This is a one-time setup route to import users with hashed passwords
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     const users = [
       {
@@ -57,11 +57,12 @@ export async function POST(request: NextRequest) {
       }))
     });
 
-  } catch (error: any) {
-    console.error('Import error:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to import users' },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    console.error("Import error:", error);
+
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to import users";
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

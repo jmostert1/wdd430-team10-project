@@ -82,7 +82,6 @@ export default function GalleryPage() {
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      const categoryParam = searchParams.get("category") || "";
       filtered = filtered.filter((p) =>
         p.name.toLowerCase().includes(query) ||
         p.category?.toLowerCase().includes(query)
@@ -218,7 +217,7 @@ export default function GalleryPage() {
                 <h1 className="results__title">Gallery</h1>
                 {searchQuery && (
                   <p style={{ fontSize: '14px', color: '#666', marginTop: '5px' }}>
-                    Search results for: "{searchQuery}"
+                    Search results for: `{searchQuery}`
                   </p>
                 )}
               </div>

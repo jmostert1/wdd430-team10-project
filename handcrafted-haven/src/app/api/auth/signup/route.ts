@@ -75,19 +75,25 @@ export async function POST(request: NextRequest) {
     ); 
 
     // Return user data (without password) and token
-    const { password: _, ...userWithoutPassword } = newUser;
+    const userWithoutPassword: Omit<typeof newUser, "password"> & { password?: string } = {
+  ...newUser };
+    delete userWithoutPassword.password;
 
-    return NextResponse.json({
-      success: true,
-      token,
-      user: { ...userWithoutPassword, _id: result.insertedId }
-    }, { status: 201 });
-
-  } catch (error: any) {
-    console.error('Signup error:', error);
     return NextResponse.json(
-      { error: 'An error occurred during signup' },
-      { status: 500 }
+      {
+        success: true,
+        token,
+        user: { ...userWithoutPassword, _id: result.insertedId },
+      },
+      { status: 201 }
     );
-  }
+
+    } catch (error: unknown) {
+      console.error("Signup error:", error);
+
+      const errorMessage =
+        error instanceof Error ? error.message : "An error occurred during signup";
+
+      return NextResponse.json({ error: errorMessage }, { status: 500 });
+    }
 }

@@ -37,36 +37,32 @@ export default function GalleryPage() {
         if (data.success) {
           setProducts(data.products);
 
-          // apply category filter immediately on first load so the page would not "jump"
+          let initialFiltered = data.products;
+
+          // Apply search query immediately
+          if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            initialFiltered = initialFiltered.filter((p: Product) =>
+              p.name.toLowerCase().includes(query) ||
+              p.category?.toLowerCase().includes(query)
+            );
+          }
+
+          // apply category filter
           if (categoryQuery) {
             setSelectedCategories([categoryQuery]); 
-            const initialFiltered = data.products.filter( 
+            initialFiltered = initialFiltered.filter( 
               (p: Product) => (p.category || "") === categoryQuery 
             );
             setFilteredProducts(initialFiltered); 
           } else {
-            setFilteredProducts(data.products);
+            setFilteredProducts(initialFiltered);
           }
         }
       })
       .catch((err) => console.error("Failed to load products:", err))
       .finally(() => setLoading(false));
-  }, []);
-
-  // Apply search when search query changes
-  useEffect(() => {
-    if (searchQuery) {
-      applyFilters();
-    }
-  }, [searchQuery, products]);
-
-    // auto-apply category filter when category query changes (needed for home page links to work)
-  useEffect(() => {
-    if (categoryQuery && products.length > 0) {
-      setSelectedCategories([categoryQuery]);
-      applyFilters();
-    }
-  }, [categoryQuery, products]);
+  }, [searchQuery, categoryQuery]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategories((prev) =>

@@ -3,7 +3,7 @@ import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "change-me";
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
 
 export async function POST(req: Request) {
   try {
@@ -40,12 +40,14 @@ export async function POST(req: Request) {
     // 4) Verify token and get userId directly
     let userId: string;
     try {
-      const payload = jwt.verify(token, JWT_SECRET) as { userId: string };
+      const payload = jwt.verify(token, JWT_SECRET) as { userId: any };
       if (!payload?.userId) {
         return NextResponse.json({ error: "Invalid token" }, { status: 401 });
       }
-      userId = payload.userId;
-    } catch {
+      // Convert to string - handle both string and ObjectId formats
+      userId = String(payload.userId);
+    } catch (err) {
+      console.error("JWT verification error:", err);
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET || "change-me";
 
 export async function POST(req: Request) {
   try {
@@ -34,18 +37,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Comment is too short" }, { status: 400 });
     }
 
-    // 4) Get user by calling your existing auth endpoint (same logic as useAuthUser)
-    const userRes = await fetch(new URL("/api/auth/user", req.url), {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    const userData = await userRes.json();
-
-    if (!userRes.ok || !userData?.success || !userData?.user?._id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // 4) Verify token and get userId directly
+    let userId: string;
+    try {
+      const payload = jwt.verify(token, JWT_SECRET) as { userId: string };
+      if (!payload?.userId) {
+        return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+      }
+      userId = payload.userId;
+    } catch {
+      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
-
-    const userId = userData.user._id as string;
 
     // 5) Save comment
     const client = await clientPromise;
@@ -92,7 +94,8 @@ export async function POST(req: Request) {
       { ok: true, commentId: result.insertedId.toString() },
       { status: 201 }
     );
-  } catch {
+  } catch (error) {
+    console.error("Comment submission error:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

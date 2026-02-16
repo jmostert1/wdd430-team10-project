@@ -4,10 +4,9 @@ import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import CategoryCard from "@/components/CategoryCard";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useMemo, Suspense } from "react";
 
-
-export default function HomePage() {
+function HomeContent() {
   const searchParams = useSearchParams();
 
   const success = useMemo(() => {
@@ -77,5 +76,15 @@ export default function HomePage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export const dynamic = 'force-dynamic';
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }

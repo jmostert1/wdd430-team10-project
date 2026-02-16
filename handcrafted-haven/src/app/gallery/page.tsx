@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import "./gallery.css";
-
-export const dynamic = 'force-dynamic';
 
 type Product = {
   _id: string;
@@ -18,7 +16,7 @@ type Product = {
   rating?: number;
 };
 
-export default function GalleryPage() {
+function GalleryContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchQuery = searchParams.get("search") || "";
@@ -145,12 +143,10 @@ export default function GalleryPage() {
   };
 
   return (
-    <main className="page">
-      <Header />
-      <section className="gallery">
-        <div className="container gallery__layout">
-          {/* LEFT PANEL */}
-          <aside className="panel panel--filters" aria-label="Filters">
+    <section className="gallery">
+      <div className="container gallery__layout">
+        {/* LEFT PANEL */}
+        <aside className="panel panel--filters" aria-label="Filters">
             <h2 className="panel__title">Filters</h2>
             <div className="panel__line" />
 
@@ -254,6 +250,16 @@ export default function GalleryPage() {
           </section>
         </div>
       </section>
+  );
+}
+
+export default function GalleryPage() {
+  return (
+    <main className="page">
+      <Header />
+      <Suspense fallback={<div>Loading...</div>}>
+        <GalleryContent />
+      </Suspense>
     </main>
   );
 }

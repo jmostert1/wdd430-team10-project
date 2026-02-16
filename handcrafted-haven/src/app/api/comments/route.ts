@@ -3,6 +3,9 @@ import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 
+// Force Node.js runtime for jsonwebtoken compatibility
+export const runtime = 'nodejs';
+
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
 
 export async function POST(req: Request) {

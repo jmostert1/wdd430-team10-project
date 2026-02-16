@@ -1,11 +1,12 @@
-// Read user info from JWT token and return user data
-
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
-const JWT_SECRET = process.env.JWT_SECRET || "change-me";
+// Force Node.js runtime for jsonwebtoken compatibility
+export const runtime = 'nodejs';
+
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
 
 export async function GET(request: NextRequest) {
   try {

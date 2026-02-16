@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import useSellerProducts from "@/hooks/useSellerProducts";
+import Image from "next/image";
 
 type Seller = {
   _id: string;
@@ -28,17 +29,28 @@ export default function SellerPage() {
   useEffect(() => {
     if (!sellerId) return;
 
-    setLoadingSeller(true);
+    const loadSeller = async () => {
+      setLoadingSeller(true);
 
-    fetch(`/api/users/${sellerId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success) setSeller(data.user);
-        else setSeller(null);
-      })
-      .catch(() => setSeller(null))
-      .finally(() => setLoadingSeller(false));
+      try {
+        const response = await fetch(`/api/users/${sellerId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          setSeller(data.user);
+        } else {
+          setSeller(null);
+        }
+      } catch {
+        setSeller(null);
+      } finally {
+        setLoadingSeller(false);
+      }
+    };
+
+    loadSeller();
   }, [sellerId]);
+
 
   // Load seller products
   const { products, loadingWorks } = useSellerProducts(sellerId);
@@ -72,12 +84,14 @@ export default function SellerPage() {
           <div className="profile__panel">
             <div className="seller">
               <div className="seller__left">
-                <img
+                <Image
                   className="seller__avatar"
                   src={seller.avatar || "/users/default-avatar.png"}
                   alt={`${seller.name} avatar`}
+                  width={120}
+                  height={120}
                 />
-              </div>
+              </div> 
 
               <div className="seller__right">
                 <h1 className="seller__name">{seller.name}</h1>

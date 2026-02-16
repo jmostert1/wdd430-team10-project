@@ -1,0 +1,252 @@
+[{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e97"
+  },
+  "userId": {
+    "$oid": "6980c0ca9ca8e60097cecf7c"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d25f"
+  },
+  "rating": 5,
+  "text": "The pattern is even nicer in person. It looks great on a shelf and feels very solid.",
+  "createdAt": "2026-02-08T10:15:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e98"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4cdf"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d25f"
+  },
+  "rating": 4,
+  "text": "Beautiful colors and clean finish. I wish it was slightly taller, but overall I’m happy.",
+  "createdAt": "2026-02-09T14:40:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e99"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4cdf"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d265"
+  },
+  "rating": 5,
+  "text": "Very soft and cozy. The texture looks premium and the size fits my cushion perfectly.",
+  "createdAt": "2026-02-07T09:05:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e9a"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4ce0"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d265"
+  },
+  "rating": 4,
+  "text": "Nice quality and stitching. The color is slightly warmer than I expected, but it works well.",
+  "createdAt": "2026-02-10T18:22:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e9b"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d267"
+  },
+  "rating": 5,
+  "text": "Great wood finish and very stable. It adds a warm touch to my table.",
+  "createdAt": "2026-02-06T12:30:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e9c"
+  },
+  "userId": {
+    "$oid": "6980c0ca9ca8e60097cecf7c"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d267"
+  },
+  "rating": 4,
+  "text": "Simple and well made. I would love an option in a darker tone too.",
+  "createdAt": "2026-02-11T08:55:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e9d"
+  },
+  "userId": {
+    "$oid": "6980c0ca9ca8e60097cecf7c"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d260"
+  },
+  "rating": 5,
+  "text": "Super soft and comfortable. The weave looks beautiful and it feels like it will last.",
+  "createdAt": "2026-02-05T16:10:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e9e"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4cdf"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d260"
+  },
+  "rating": 4,
+  "text": "Really nice blanket and not too heavy. It arrived neatly packaged.",
+  "createdAt": "2026-02-10T11:35:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119e9f"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d263"
+  },
+  "rating": 5,
+  "text": "The glaze is gorgeous and the plate feels sturdy. Perfect for serving snacks.",
+  "createdAt": "2026-02-07T19:45:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea0"
+  },
+  "userId": {
+    "$oid": "6980c0ca9ca8e60097cecf7c"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d263"
+  },
+  "rating": 4,
+  "text": "Beautiful color and shape. Slightly smaller than I imagined, but still very useful.",
+  "createdAt": "2026-02-12T07:20:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea1"
+  },
+  "userId": {
+    "$oid": "6980c0ca9ca8e60097cecf7c"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d264"
+  },
+  "rating": 5,
+  "text": "Great fabric and the neutral color matches everything. Looks elegant on the table.",
+  "createdAt": "2026-02-04T13:05:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea2"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4ce0"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d264"
+  },
+  "rating": 4,
+  "text": "Nice weight and texture. I would buy another one for a longer table setting.",
+  "createdAt": "2026-02-09T09:50:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea3"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d261"
+  },
+  "rating": 5,
+  "text": "Lovely grain and smooth finish. It’s perfect for serving bread and cheese.",
+  "createdAt": "2026-02-06T09:15:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea4"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4ce0"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d261"
+  },
+  "rating": 4,
+  "text": "Solid board and looks great in the kitchen. I’d like a slightly thicker version too.",
+  "createdAt": "2026-02-11T15:05:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea5"
+  },
+  "userId": {
+    "$oid": "6980c0ca9ca8e60097cecf7c"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d262"
+  },
+  "rating": 5,
+  "text": "Very clean design and a nice matte glaze. Great for everyday use.",
+  "createdAt": "2026-02-03T18:40:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea6"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4cdf"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d262"
+  },
+  "rating": 4,
+  "text": "Beautiful bowl and the size is practical. Packaging was secure and safe.",
+  "createdAt": "2026-02-10T10:05:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea7"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4cde"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d266"
+  },
+  "rating": 5,
+  "text": "Love the natural walnut color. They feel smooth and don’t scratch the table.",
+  "createdAt": "2026-02-05T09:30:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "698d7758abf36c2017119ea8"
+  },
+  "userId": {
+    "$oid": "6923fc07dadbab3fea8d4ce0"
+  },
+  "productId": {
+    "$oid": "6979f05f88a2d4d674b0d266"
+  },
+  "rating": 4,
+  "text": "Nice set and good quality. I’d appreciate a small holder for storage.",
+  "createdAt": "2026-02-12T06:10:00.000Z"
+}]

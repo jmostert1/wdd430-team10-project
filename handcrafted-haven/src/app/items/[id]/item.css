@@ -18,12 +18,12 @@
 
 /* LEFT: Images */
 .media__main {
+  position: relative;
   height: 260px;
   background: var(--color-bg);
   border: 1px solid var(--color-bg);
   border-radius: 10px;
   overflow: hidden;
-
   width: 100%;
   max-width: 520px;
   margin-left: auto;
@@ -68,13 +68,13 @@
 }
 
 .thumb {
+  position: relative;
   height: 86px;
   width: 110px;
   background: var(--color-bg);
   border: 1px solid var(--color-bg);
   overflow: hidden;
   border-radius: 8px;
-
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -95,12 +95,17 @@
 /* Review block */
 .reviewPreview {
   margin-top: 26px;
+  padding: 16px 18px;
+  border: 1px solid rgba(42, 23, 20, 0.12);
+  border-radius: 10px;
+  background: var(--color-bg);
 }
 
 .reviewPreview__top {
   display: flex;
   align-items: center;
   gap: 14px;
+  margin-bottom: 10px;
 }
 
 .avatar {
@@ -108,7 +113,8 @@
   height: 44px;
   border-radius: 999px;
   border: 1px solid var(--color-muted);
-  background: #ffffff;
+  object-fit: cover;
+  display: block;
 }
 
 .avatar--sm {
@@ -124,14 +130,16 @@
 
 .reviewPreview__name {
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--color-text);
 }
 
 .reviewPreview__date {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text);
+  opacity: 0.7;
 }
 
 .reviewPreview__header {
@@ -148,16 +156,19 @@
 }
 
 .stars--sm {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--color-primary);
+  letter-spacing: 1px; 
 }
 
 .reviewPreview__text {
-  margin: 14px 0 0;
+  margin: 0;
+  margin-top: 6px;
   font-family: var(--font-body);
   font-size: 14px;
-  line-height: 1.9;
+  line-height: 1.8;
   color: var(--color-text);
+  max-width: 52ch; 
 }
 
 /* Product Details */
@@ -248,17 +259,11 @@
   color: var(--color-primary);
 }
 
-.avatar {
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-}
-
 
 /* Description */
 .details__desc {
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.9;
   color: var(--color-text);
   margin-bottom: 34px;
@@ -281,6 +286,74 @@
   border-radius: 6px;
   border: none;
 }
+
+.commentBlock {
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid rgba(42, 23, 20, 0.12);
+  border-radius: 10px;
+  background: var(--color-bg);
+}
+
+.commentBlock__title {
+  margin: 0 0 12px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.commentForm {
+  display: grid;
+  gap: 12px;
+}
+
+.commentForm__label {
+  display: grid;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.commentForm__select,
+.commentForm__textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(42, 23, 20, 0.18);
+  background: #fff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.commentForm__textarea {
+  resize: vertical;
+}
+
+.commentForm__submit {
+  width: fit-content;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 16px;
+}
+
+.commentForm__msg {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 13px;
+}
+
+.commentForm__msg--error {
+  color: #b42318;
+}
+
+.commentForm__msg--success {
+  color: #027a48;
+}
+
 
 /* Responsive */
 @media (max-width: 1100px) {

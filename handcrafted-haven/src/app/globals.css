@@ -18,6 +18,10 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
   background-color: var(--color-bg);
@@ -48,13 +52,15 @@ h1, h2, h3, h4, h5, h6 {
 .header {
   background: var(--color-bg);
   border-bottom: 1px solid rgba(42, 23, 20, 0.12);
+  height: 70px; 
 }
 
 .header__inner {
   display: flex;
   align-items: center;
   gap: 30px;
-  padding: 10px
+  padding: 10px;
+  height: 100%; 
 }
 
 .brand {
@@ -135,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   gap: 16px;
   justify-content: end;
-  padding: 5px;
+  padding: 0px;
 }
 
 /* Cart Icon */
@@ -149,6 +155,9 @@ h1, h2, h3, h4, h5, h6 {
   padding: 8px;
   border-radius: 6px;
   transition: background-color 0.2s;
+  height: 40px;
+  width: 40px;
+  padding: 0; 
 }
 
 .cart-icon:hover {
@@ -172,6 +181,21 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 4px;
 }
 
+/* Alerts */
+.alert {
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid transparent;
+}
+
+.alert--success {
+  background: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -179,9 +203,11 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   border-radius: 6px;
   padding: 10px 18px;
+  line-height: 1;
   font-weight: 600;
   text-decoration: none;
   font-family: var(--font-body);
+  border: none;
 }
 
 .btn--primary {
@@ -204,17 +230,33 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff;
 }
 
+.header__loginBtn {
+  min-width: 110px;
+  justify-content: center;
+}
+
+button.btn {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
 /* Hero */
 .hero {
-  background: var(--color-bg);
   padding: 22px 0 10px;
 }
 
 .hero__media {
-  height: 330px;
-  background: #ffffff;
-  border: 1px solid rgba(42, 23, 20, 0.18);
-  border-radius: 4px;
+  position: relative;
+  width: 100%;
+  height: 360px;
+  border: 1px solid var(--color-surface);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.hero__img {
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Below section */
@@ -250,21 +292,143 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card {
+  position: relative;
   height: 260px;
-  background: #ffffff;
   border-radius: 8px;
   border: 1px solid rgba(42, 23, 20, 0.12);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(42, 23, 20, 0.12);
+}
+
+.card__img {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+/* Overlay */
+.card__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 18px;
+  background: rgba(254, 247, 237, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+}
+
+.card__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 20px;
+  color: var(--color-text);
+}
+
+/* Hide mobile login icon by default */
+.header__loginIcon {
+  display: none;
+  font-size: 20px;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.header__loginIcon:hover {
+  background-color: rgba(226, 113, 48, 0.1);
 }
 
 /* Responsive */
-@media (max-width: 900px) {
+@media (max-width: 962px) {
+  .header {
+    height: auto;
+  }
+
   .header__inner {
-    grid-template-columns: 1fr;
-    justify-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0; 
+  }
+
+  /* Row 1: logo left, CTA right */
+  .brand {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .brand__icon {
+    display: none;
+  }
+
+  .brand__name {
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .header__cta {
+    flex: 0 0 auto;
+    margin-left: auto;
+    gap: 5px;
+  }
+
+  /* Hide desktop login button */
+  .header__loginBtn {
+    display: none;
+  }
+
+  /* Show icon instead */
+  .header__loginIcon {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
+  }
+
+  /* Row 3: search full width  Looks fine*/
+  .header__search {
+    order: 3;
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 8px;
+    justify-content: stretch;
+  }
+
+  .header__search {
+    margin-top: 0;
+  }
+
+  .search__input {
+    max-width: none;
+    width: 100%;
+    height: 40px;
+    padding: 10px 12px;
+  }
+
+  /* Row 4: nav full width, centered Looks fine*/
+  .nav {
+    order: 4;
+    width: 100%;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  /* Looks good*/
+  .hero__media {
+    height: 200px;
   }
 
   .below__grid {

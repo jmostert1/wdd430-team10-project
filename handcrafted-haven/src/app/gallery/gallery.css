@@ -220,6 +220,12 @@
   .products {
     grid-template-columns: repeat(2, 1fr);
   }
+  .gallery__notice {
+    padding-top: 12px;
+    text-align: center;
+    color: var(--color-text);
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 640px) {

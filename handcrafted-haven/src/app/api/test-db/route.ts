@@ -22,12 +22,21 @@ export async function GET() {
       users,
       timestamp: new Date().toISOString()
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('MongoDB connection error:', error);
-    return NextResponse.json({ 
-      success: false,
-      error: error.message || 'Failed to connect to MongoDB',
-      timestamp: new Date().toISOString()
-    }, { status: 500 });
+
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Failed to connect to MongoDB';
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: errorMessage,
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 }
+    );
   }
 }

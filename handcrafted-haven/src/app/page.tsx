@@ -1,48 +1,41 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
+import CategoryCard from "@/components/CategoryCard";
+import Image from "next/image";
+import { useMemo } from "react";
+
 
 export default function HomePage() {
   const searchParams = useSearchParams();
-  const [success, setSuccess] = useState("");
 
-  useEffect(() => {
-    const successMessage = searchParams.get("success");
-    if (successMessage) {
-      setSuccess(successMessage);
-      // Clear the success message after 5 seconds
-      setTimeout(() => setSuccess(""), 5000);
-    }
-  }, [searchParams]);
+  const success = useMemo(() => {
+  return searchParams.get("success") ?? "";
+}, [searchParams]);
+
 
   return (
     <main className="page">
       <Header />
 
       {success && (
-        <div style={{
-          background: "#d4edda",
-          color: "#155724",
-          padding: "12px",
-          textAlign: "center",
-          fontSize: "14px",
-          border: "1px solid #c3e6cb"
-        }}>
+        <div className="alert alert--success">
           {success}
         </div>
-      )}
+      )}  
 
       {/* Hero */}
       <section className="hero" aria-label="Featured content">
         <div className="container">
-          <div
-            className="hero__media"
-            role="img"
-            aria-label="Featured handcrafted products"
-          >
-            {/* Will need to add image here later */}
+          <div className="hero__media">
+            <Image
+              src="/hero.png"
+              alt="Featured handcrafted products"
+              fill
+              priority
+              className="hero__img"
+            />
           </div>
         </div>
       </section>
@@ -52,19 +45,34 @@ export default function HomePage() {
         <div className="container below__grid">
           {/* Left text */}
           <div className="below__text">
-            <h1 className="below__title">Lorem ipsum dolor sit amet, ck</h1>
+            <h1 className="below__title">Find Something Truly Special</h1>
             <p className="below__desc">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+              Browse a collection of handmade products created by independent artisans.
+              Each item offers quality, character, and a personal touch.
             </p>
             <a className="btn btn--primary" href="/gallery">Learn more</a>
           </div>
 
           {/* Right cards */}
           <div className="below__cards" aria-label="Featured categories">
-            <article className="card" />
-            <article className="card" />
-            <article className="card" />
+            <CategoryCard
+              src="/home2.png"
+              alt="Handmade home decor"
+              title="Textiles"
+              href="/gallery?category=Textiles"
+            />
+            <CategoryCard
+              src="/home1.png"
+              alt="Handcrafted accessories"
+              title="Ceramics"
+              href="/gallery?category=Ceramics"
+            />
+            <CategoryCard
+              src="/home3.png"
+              alt="Artisan gifts"
+              title="Home Decor"
+              href="/gallery?category=Home Decor"
+            />
           </div>
         </div>
       </section>

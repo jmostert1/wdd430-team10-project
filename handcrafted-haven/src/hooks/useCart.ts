@@ -9,29 +9,22 @@ export type CartItem = {
 };
 
 export default function useCart() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    if (typeof window === "undefined") return [];
 
-  // Load cart from localStorage on mount
-  useEffect(() => {
-    const storedCart = localStorage.getItem("cart");
-    if (storedCart) {
-      try {
-        setCartItems(JSON.parse(storedCart));
-      } catch (error) {
-        console.error("Failed to parse cart data:", error);
-        setCartItems([]);
-      }
+    try {
+      const storedCart = localStorage.getItem("cart");
+      return storedCart ? JSON.parse(storedCart) : [];
+    } catch {
+      return [];
     }
-    setLoading(false);
-  }, []);
-
-  // Save cart to localStorage whenever it changes
+  });
+  
   useEffect(() => {
-    if (!loading) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("cart", JSON.stringify(cartItems));
     }
-  }, [cartItems, loading]);
+  }, [cartItems]);
 
   const addToCart = (item: Omit<CartItem, "quantity">) => {
     setCartItems((prev) => {
@@ -79,7 +72,6 @@ export default function useCart() {
 
   return {
     cartItems,
-    loading,
     addToCart,
     removeFromCart,
     updateQuantity,

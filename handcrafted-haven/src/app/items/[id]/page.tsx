@@ -30,6 +30,24 @@ export default async function ItemPage({ params }: PageProps) {
     notFound();
   }
 
+  // Get one random comment for this product
+  const randomComment = await db.collection("comments").aggregate([
+    { $match: { productId: new ObjectId(id) } },
+    { $sample: { size: 1 } }
+  ]).toArray();
+
+  const comment = randomComment[0] || null;
+
+  // Get user info for that comment
+  let commentUser = null;
+
+  if (comment?.userId) {
+    commentUser = await db.collection("users").findOne(
+      { _id: comment.userId },
+      { projection: { name: 1, avatar: 1 } }
+    );
+  }
+
   const images: string[] = product.imageUrl ?? [];
 
   return (
@@ -46,13 +64,23 @@ export default async function ItemPage({ params }: PageProps) {
                   alt={product.name}
                 />
 
-                {/* Reviews are static for now. Need to change it later */}
-                <ReviewCard
-                  name="Buyer Information"
-                  date="01.07.2025"
-                  rating={4.8}
-                  text="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
-                />
+                {/* Reviews */}
+                {comment && commentUser ? (
+                  <ReviewCard
+                    name={commentUser.name || "Buyer"}
+                    date={new Date(comment.createdAt).toLocaleDateString("en-GB")}
+                    rating={Number(comment.rating || 0)}
+                    text={comment.text || ""}
+                    avatarSrc={commentUser.avatar}
+                  />
+                ) : (
+                  <ReviewCard
+                    name="Buyer Information"
+                    date=""
+                    rating={5}
+                    text="No reviews yet."
+                  />
+                )}
               </div>
 
               {/* RIGHT COLUMN */}

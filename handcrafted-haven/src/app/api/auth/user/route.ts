@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
 
     // Return user
     return NextResponse.json({ success: true, user });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ success: false, error: "Invalid token" }, { status: 401 });
   }
 }

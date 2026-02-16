@@ -8,6 +8,13 @@ type RouteContext = {
   params: Promise<{ id: string }>;
 };
 
+type User = {
+  name: string;
+  bio: string;
+  country: string;
+  avatar?: string;
+};
+
 export async function GET(request: NextRequest, { params }: RouteContext) {
   try {
     const { id } = await params;
@@ -59,7 +66,7 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
     const { name, bio, country, avatar } = body;
 
     // Build update object with only provided fields
-    const updateFields: any = {};
+    const updateFields: Partial<User> = {};
     if (name !== undefined) updateFields.name = name;
     if (bio !== undefined) updateFields.bio = bio;
     if (country !== undefined) updateFields.country = country;

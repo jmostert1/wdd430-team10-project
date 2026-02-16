@@ -20,13 +20,14 @@ export default function GalleryPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchQuery = searchParams.get("search") || "";
+  const categoryQuery = searchParams.get("category") || ""; // Optional category filter from URL needed for home page
   
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [maxPrice, setMaxPrice] = useState<number>(1000);
+  const [maxPrice, setMaxPrice] = useState<number>(100);
   const [sortBy, setSortBy] = useState<string>("");
 
   useEffect(() => {
@@ -35,19 +36,33 @@ export default function GalleryPage() {
       .then((data) => {
         if (data.success) {
           setProducts(data.products);
-          setFilteredProducts(data.products);
+
+          let initialFiltered = data.products;
+
+          // Apply search query immediately
+          if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            initialFiltered = initialFiltered.filter((p: Product) =>
+              p.name.toLowerCase().includes(query) ||
+              p.category?.toLowerCase().includes(query)
+            );
+          }
+
+          // apply category filter
+          if (categoryQuery) {
+            setSelectedCategories([categoryQuery]); 
+            initialFiltered = initialFiltered.filter( 
+              (p: Product) => (p.category || "") === categoryQuery 
+            );
+            setFilteredProducts(initialFiltered); 
+          } else {
+            setFilteredProducts(initialFiltered);
+          }
         }
       })
       .catch((err) => console.error("Failed to load products:", err))
       .finally(() => setLoading(false));
-  }, []);
-
-  // Apply search when search query changes
-  useEffect(() => {
-    if (searchQuery) {
-      applyFilters();
-    }
-  }, [searchQuery, products]);
+  }, [searchQuery, categoryQuery]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategories((prev) =>
@@ -69,10 +84,18 @@ export default function GalleryPage() {
       );
     }
 
+    // if URL has category and user hasn't selected any checkboxes yet, use URL category
+    const activeCategories =
+      selectedCategories.length > 0
+        ? selectedCategories
+        : categoryQuery
+        ? [categoryQuery]
+        : [];
+
     // Filter by category
-    if (selectedCategories.length > 0) {
+    if (activeCategories.length > 0) {     //activeCategories instead of only selectedCategories
       filtered = filtered.filter((p) =>
-        selectedCategories.includes(p.category || "")
+        activeCategories.includes(p.category || "")
       );
     }
 
@@ -81,7 +104,6 @@ export default function GalleryPage() {
 
     // Apply sorting
     filtered = applySorting(filtered, sortBy);
-
     setFilteredProducts(filtered);
   };
 
@@ -110,12 +132,12 @@ export default function GalleryPage() {
 
   const resetFilters = () => {
     setSelectedCategories([]);
-    setMaxPrice(1000);
+    setMaxPrice(100);
     setSortBy("");
     setFilteredProducts(products);
     
-    // Clear search query from URL if present
-    if (searchQuery) {
+    // Clear search and categoryquery from URL if present
+    if (searchQuery || categoryQuery) {
       router.push("/gallery");
     }
   };
@@ -170,7 +192,7 @@ export default function GalleryPage() {
               className="price__range" 
               type="range" 
               min={10} 
-              max={1000} 
+              max={100} 
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
             />
@@ -191,7 +213,7 @@ export default function GalleryPage() {
                 <h1 className="results__title">Gallery</h1>
                 {searchQuery && (
                   <p style={{ fontSize: '14px', color: '#666', marginTop: '5px' }}>
-                    Search results for: "{searchQuery}"
+                    Search results for: `{searchQuery}`
                   </p>
                 )}
               </div>
@@ -208,7 +230,7 @@ export default function GalleryPage() {
 
             <div className="products">
               {loading ? (
-                <p>Loading products...</p>
+                <p className="gallery__notice">Loading products...</p>
               ) : filteredProducts.length === 0 ? (
                 <p>{searchQuery ? `No products found for "${searchQuery}"` : "No products available."}</p>
               ) : (

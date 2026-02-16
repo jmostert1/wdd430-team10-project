@@ -1,4 +1,6 @@
 import styles from "./ProductCard.module.css";
+import Image from "next/image";
+
 
 type ProductCardProps = {
   name: string;
@@ -10,11 +12,14 @@ export default function ProductCard({ name, price, imageSrc }: ProductCardProps)
   return (
     <article className="work">
       <div className="work__img">
-        <img
-          src={imageSrc}
+        <Image
+          src={imageSrc || "/products/default-product.png"}
           alt={name}
           className={styles.image}
+          width={300}
+          height={300}
         />
+
       </div>
 
       <div className="work__meta">

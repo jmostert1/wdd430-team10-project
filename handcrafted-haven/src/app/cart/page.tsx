@@ -5,12 +5,13 @@ import Link from "next/link";
 import useCart from "@/hooks/useCart";
 import useAuthUser from "@/hooks/useAuth";
 import "./cart.css";
+import Image from "next/image";
+
 
 export default function CartPage() {
   const { isLoggedIn, loadingUser } = useAuthUser({ redirectToLogin: true });
   const {
     cartItems,
-    loading,
     removeFromCart,
     updateQuantity,
     clearCart,
@@ -18,7 +19,7 @@ export default function CartPage() {
     getTotalItems,
   } = useCart();
 
-  if (loadingUser || loading) {
+  if (loadingUser) {
     return (
       <main className="page">
         <Header />
@@ -70,9 +71,13 @@ export default function CartPage() {
                         href={`/items/${item.productId}`}
                         className="cart-item__image"
                       >
-                        <img
+                        <Image
                           src={item.imageSrc || "/products/default-product.png"}
                           alt={item.name}
+                          width={120}
+                          height={120}
+                          className="cart-item__img"
+                          sizes="120px"
                         />
                       </Link>
 

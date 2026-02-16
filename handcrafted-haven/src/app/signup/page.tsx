@@ -4,7 +4,6 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import "../login/login.css";
-import { count } from "console";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -60,12 +59,16 @@ export default function SignupPage() {
 
       // Redirect to login page with success message
       router.push("/login?success=Account created successfully! Please sign in.");
-    } catch (err: any) {
-      setError(err.message || "An error occurred during signup");
-    } finally {
-      setLoading(false);
-    }
-  };
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An error occurred during signup");
+      }
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <main className="page">

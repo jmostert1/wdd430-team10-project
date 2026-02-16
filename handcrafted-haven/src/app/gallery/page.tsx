@@ -253,6 +253,8 @@ function GalleryContent() {
   );
 }
 
+export const dynamic = 'force-dynamic';
+
 export default function GalleryPage() {
   return (
     <main className="page">

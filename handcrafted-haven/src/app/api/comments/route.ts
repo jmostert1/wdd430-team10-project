@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     // 4) Verify token and get userId directly
     let userId: string;
     try {
-      const payload = jwt.verify(token, JWT_SECRET) as { userId: any };
+      const payload = jwt.verify(token, JWT_SECRET) as { userId: string };
       if (!payload?.userId) {
         return NextResponse.json({ error: "Invalid token" }, { status: 401 });
       }

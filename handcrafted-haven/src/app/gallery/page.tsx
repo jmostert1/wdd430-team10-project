@@ -7,6 +7,8 @@ import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import "./gallery.css";
 
+export const dynamic = 'force-dynamic';
+
 type Product = {
   _id: string;
   name: string;

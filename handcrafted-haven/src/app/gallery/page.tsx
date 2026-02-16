@@ -193,6 +193,7 @@ function GalleryContent() {
               max={100} 
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
+              aria-label="Maximum price filter"
             />
 
             <button className="btn btn--primary filters__apply" type="button" onClick={applyFilters}>
